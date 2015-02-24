@@ -1,5 +1,7 @@
 package iul.iscte.tsio.controller;
 
+import iul.iscte.tsio.model.User;
+
 import java.net.URI;
 
 import javax.ws.rs.core.MediaType;
@@ -13,9 +15,7 @@ public class Neo4jControllerUsers {
 	private static Neo4jControllerUsers instance = null;
 	final String SERVER_ROOT_URI = "http://localhost:7474/db/data/";
 
-	private Neo4jControllerUsers() {
-		
-	}
+	private Neo4jControllerUsers() {}
 
 	public static Neo4jControllerUsers getInstance() {
 		if (instance == null) {
@@ -54,8 +54,20 @@ public class Neo4jControllerUsers {
 		response.close();
 	}
 
-	public String read() {
-		return "";
+	public User read(String username) {
+		final String txUri = SERVER_ROOT_URI + "transaction/commit";
+		WebResource resource = Client.create().resource( txUri );
+		String query = "MATCH (user:User { Username:'" + username + "' }) RETURN user";
+		String payload = "{\"statements\" : [ {\"statement\" : \"" + query + "\"} ]}";
+		ClientResponse response = resource
+		        .accept( MediaType.APPLICATION_JSON )
+		        .type( MediaType.APPLICATION_JSON )
+		        .entity( payload )
+		        .post( ClientResponse.class );
+		response.getEntity(String.class);
+		//TODO: Create Parser for response, get everything after "{"row":[{" and before "}]}]}],"errors":[]}"
+		//TODO: Create and return User Data Object
+		return null;
 	};
 
 	public void update() {

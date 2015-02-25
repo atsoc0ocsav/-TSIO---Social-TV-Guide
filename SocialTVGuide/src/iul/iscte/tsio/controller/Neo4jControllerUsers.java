@@ -6,6 +6,10 @@ import java.net.URI;
 
 import javax.ws.rs.core.MediaType;
 
+import org.neo4j.graphdb.Node;
+import org.neo4j.rest.graphdb.RestGraphDatabase;
+import org.neo4j.rest.graphdb.query.RestCypherQueryEngine;
+
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -13,9 +17,14 @@ import com.sun.jersey.api.client.WebResource;
 //Maybe create 2 controllers, one for movies and one for users
 public class Neo4jControllerUsers {
 	private static Neo4jControllerUsers instance = null;
-	final String SERVER_ROOT_URI = "http://localhost:7474/db/data/";
-
-	private Neo4jControllerUsers() {}
+	private final String SERVER_ROOT_URI = "http://localhost:7474/db/data/";
+	private final RestGraphDatabase graphDatabase;
+	private final RestCypherQueryEngine cypherQueryEngine;
+	
+	private Neo4jControllerUsers() {
+		this.graphDatabase = new RestGraphDatabase(SERVER_ROOT_URI);
+		this.cypherQueryEngine = new RestCypherQueryEngine(graphDatabase.getRestAPI());
+	}
 
 	public static Neo4jControllerUsers getInstance() {
 		if (instance == null) {
@@ -55,19 +64,20 @@ public class Neo4jControllerUsers {
 	}
 
 	public User read(String username) {
-		final String txUri = SERVER_ROOT_URI + "transaction/commit";
-		WebResource resource = Client.create().resource( txUri );
+//		final String txUri = SERVER_ROOT_URI + "transaction/commit";
+//		WebResource resource = Client.create().resource( txUri );
 		String query = "MATCH (user:User { Username:'" + username + "' }) RETURN user";
-		String payload = "{\"statements\" : [ {\"statement\" : \"" + query + "\"} ]}";
-		ClientResponse response = resource
-		        .accept( MediaType.APPLICATION_JSON )
-		        .type( MediaType.APPLICATION_JSON )
-		        .entity( payload )
-		        .post( ClientResponse.class );
-		response.getEntity(String.class);
-		//TODO: Create Parser for response, get everything after "{"row":[{" and before "}]}]}],"errors":[]}"
-		//TODO: Create and return User Data Object
-		return null;
+//		String payload = "{\"statements\" : [ {\"statement\" : \"" + query + "\"} ]}";
+//		ClientResponse response = resource
+//		        .accept( MediaType.APPLICATION_JSON )
+//		        .type( MediaType.APPLICATION_JSON )
+//		        .entity( payload )
+//		        .post( ClientResponse.class );
+//		response.getEntity(String.class);
+//		//TODO: Create Parser for response, get everything after "{"row":[{" and before "}]}]}],"errors":[]}"
+//		//TODO: Create and return User Data Object
+		Iterable<Node> userNode = cypherQueryEngine.query(query, null).to(Node.class);
+		return new User((String)userNode.iterator().next().getProperty("Username"));
 	};
 
 	public void update() {

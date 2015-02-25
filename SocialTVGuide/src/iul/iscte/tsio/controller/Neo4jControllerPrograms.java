@@ -4,6 +4,8 @@ import java.net.URI;
 
 import javax.ws.rs.core.MediaType;
 
+import org.neo4j.graphdb.Node;
+
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;

@@ -1,5 +1,13 @@
 package iul.iscte.tsio.interfaces;
 
-public interface ProgramDAO {
+import iul.iscte.tsio.model.ProgramEntity;
 
+import java.util.List;
+
+public interface ProgramDAO {
+	public ProgramEntity getProgramByTitle(String title);
+//	public boolean updateUser(UserEntity userToUpdate, String oldEmail);
+	public boolean insertUser(ProgramEntity programToInsert);
+	public boolean deleteProgram(ProgramEntity programToDelete);
+	public List<ProgramEntity> getAllPrograms();
 }

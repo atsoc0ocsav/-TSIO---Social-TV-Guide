@@ -1,20 +1,20 @@
 package iul.iscte.tsio.model;
 
-import iul.iscte.tsio.controller.Neo4jControllerUsers;
-
-public class User {
+public class UserEntity {
 	//Create constraint to guarantee the username is unique
 	private String username;
+	private String email;
 	
-	public User(String username){
+	public UserEntity(String username, String email){
 		this.username = username;
+		this.email = email;
 	}
 
 	public String getUsername() {
 		return username;
 	}
 	
-	public static User getUser(String username){
-		return Neo4jControllerUsers.getInstance().read(username);
+	public String getEmail(){
+		return email;
 	}
 }

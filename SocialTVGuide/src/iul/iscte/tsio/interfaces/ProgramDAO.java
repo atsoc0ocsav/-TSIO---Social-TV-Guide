@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ProgramDAO {
 	public ProgramEntity getProgramByTitle(String title);
-//	public boolean updateUser(UserEntity userToUpdate, String oldEmail);
+	public boolean updateProgram(ProgramEntity userToUpdate);
 	public boolean insertUser(ProgramEntity programToInsert);
 	public boolean deleteProgram(ProgramEntity programToDelete);
 	public List<ProgramEntity> getAllPrograms();

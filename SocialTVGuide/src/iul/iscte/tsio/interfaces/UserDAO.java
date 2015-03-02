@@ -8,7 +8,7 @@ public interface UserDAO {
 
 	public UserEntity getUserByEmail(String email);
 
-//	public boolean updateUser(UserEntity userToUpdate, String oldEmail);
+	public boolean updateUser(UserEntity userToUpdate);
 
 	public boolean insertUser(UserEntity userToInsert);
 

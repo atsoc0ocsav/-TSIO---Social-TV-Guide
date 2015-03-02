@@ -78,7 +78,7 @@ public class Neo4jControllerUsers {
 	public UserEntity read(String username) {
 //		final String txUri = SERVER_ROOT_URI + "transaction/commit";
 //		WebResource resource = Client.create().resource( txUri );
-		String query = "MATCH (user:User { Username:'" + username + "' }) RETURN user";
+//		String query = "MATCH (user:User { Username:'" + username + "' }) RETURN user";
 //		String payload = "{\"statements\" : [ {\"statement\" : \"" + query + "\"} ]}";
 //		ClientResponse response = resource
 //		        .accept( MediaType.APPLICATION_JSON )

@@ -48,6 +48,11 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public boolean insertUser(UserEntity userToInsert) {
+		String query = "Create (u:User {username: " + userToInsert.getUsername() + ", email: " + userToInsert.getEmail() + "}) Return u;";
+		Iterable<Node> user = cypherQueryEngine.query(query, null).to(Node.class);
+		if(user.iterator().hasNext()){
+			return true;
+		}
 		return false;
 	}
 

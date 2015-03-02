@@ -2,7 +2,7 @@ package iul.iscte.tsio.model;
 
 import java.util.Calendar;
 
-public class Program {
+public class ProgramEntity {
 	
 	private String title;
 	private String type;
@@ -13,7 +13,7 @@ public class Program {
 	private int season = 0;
 	private int episodeNumber = 0;
 	
-	public Program(String title, String type, Calendar startTime,
+	public ProgramEntity(String title, String type, Calendar startTime,
 			Calendar endTime, String channel, String description) {
 		super();
 		this.title = title;
@@ -24,7 +24,7 @@ public class Program {
 		this.description = description;
 	}
 	
-	public Program(String title, String type, Calendar startTime,
+	public ProgramEntity(String title, String type, Calendar startTime,
 			Calendar endTime, String channel, String description, int season, int episodeNumber) {
 		super();
 		this.title = title;

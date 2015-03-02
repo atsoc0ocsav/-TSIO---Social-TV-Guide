@@ -1,5 +1,5 @@
 package iul.iscte.tsio.model;
 
-public class Friends {
+public class RecommendEntity {
 
 }

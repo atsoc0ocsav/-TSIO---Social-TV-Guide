@@ -1,17 +1,17 @@
 package iul.iscte.tsio.model;
 
-public class Watching {
-	private Program program;
+public class WatchedEntity {
+	private ProgramEntity program;
 	private UserEntity user;
 	private boolean recommended;
 	
-	public Watching(Program program, UserEntity user, boolean recommends){
+	public WatchedEntity(ProgramEntity program, UserEntity user, boolean recommends){
 		this.program = program;
 		this.user = user;
 		this.recommended = recommended;
 	}
 	
-	public Program getProgram() {
+	public ProgramEntity getProgram() {
 		return program;
 	}
 

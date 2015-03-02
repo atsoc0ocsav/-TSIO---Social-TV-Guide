@@ -3,6 +3,7 @@ package iul.iscte.tsio.model;
 import iul.iscte.tsio.interfaces.UserDAO;
 import iul.iscte.tsio.server.Server;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.neo4j.graphdb.Node;
@@ -23,34 +24,31 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public List<UserEntity> getUsersByParameters(String nome, String escola,
-			boolean aSeguir, String email) {
+	public UserEntity getUserByEmail(String email) {
+		String query = "Match (n:User) where n.email=" + email + " return n;";
+		Iterable<Node> user = cypherQueryEngine.query(query, null).to(
+				Node.class);
+		if (!user.iterator().hasNext()) {
+			Node aux = user.iterator().next();
+			return new UserEntity(aux.getProperty("username").toString(), aux
+					.getProperty("email").toString());
+		}
 		return null;
 	}
 
-	@Override
-	public UserEntity getUserByEmail(String email) {
-			String query = "Match (n) where n.email=" + email +" return n;";
-			Iterable<Node> user = cypherQueryEngine.query(query, null).to(Node.class);
-			
-			if(!user.iterator().hasNext()){
-				Node aux = user.iterator().next();
-				return new UserEntity(aux.getProperty("username").toString(), aux.getProperty("email").toString());
-			}
-				
-			return null;
-	}
-
-	@Override
-	public boolean updateUser(UserEntity userToUpdate, String oldEmail) {
-		return false;
-	}
+//	@Override
+//	public boolean updateUser(UserEntity userToUpdate, String oldEmail) {
+//		return false;
+//	}
 
 	@Override
 	public boolean insertUser(UserEntity userToInsert) {
-		String query = "Create (u:User {username: " + userToInsert.getUsername() + ", email: " + userToInsert.getEmail() + "}) Return u;";
-		Iterable<Node> user = cypherQueryEngine.query(query, null).to(Node.class);
-		if(user.iterator().hasNext()){
+		String query = "Create (u:User {username: "
+				+ userToInsert.getUsername() + ", email: "
+				+ userToInsert.getEmail() + "}) Return u;";
+		Iterable<Node> user = cypherQueryEngine.query(query, null).to(
+				Node.class);
+		if (user.iterator().hasNext()) {
 			return true;
 		}
 		return false;
@@ -58,30 +56,44 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public boolean deleteUser(UserEntity userToDelete) {
+		String query = "Match (u:User {username: "
+				+ userToDelete.getUsername() + ", email: "
+				+ userToDelete.getEmail() + "}) Delete u Return u;";
+		Iterable<Node> user = cypherQueryEngine.query(query, null).to(
+				Node.class);
+		if (!user.iterator().hasNext()) {
+			return true;
+		}
 		return false;
 	}
 
 	@Override
-	public UserEntity getUser(String name) {
-
+	public UserEntity getUserByName(String username) {
+		String query = "Match (n:User) where n.username=" + username
+				+ " return n;";
+		Iterable<Node> user = cypherQueryEngine.query(query, null).to(
+				Node.class);
+		if (!user.iterator().hasNext()) {
+			Node aux = user.iterator().next();
+			return new UserEntity(aux.getProperty("username").toString(), aux
+					.getProperty("email").toString());
+		}
 		return null;
 	}
 
 	@Override
 	public List<UserEntity> getAllUsers() {
-		return null;
-	}
+		String query = "Match (n:User) return n;";
+		Iterable<Node> user = cypherQueryEngine.query(query, null).to(
+				Node.class);
+		List<UserEntity> auxList = new ArrayList<UserEntity>();
+		while (!user.iterator().hasNext()) {
+			Node auxNode = user.iterator().next();
+			auxList.add(new UserEntity(auxNode.getProperty("username")
+					.toString(), auxNode.getProperty("email").toString()));
+		}
 
-	@Override
-	public boolean createFollow(String follower, String followed) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public String[] getSchools() {
-		// TODO Auto-generated method stub
-		return null;
+		return auxList;
 	}
 
 	public static UserDAOImpl getInstance() {

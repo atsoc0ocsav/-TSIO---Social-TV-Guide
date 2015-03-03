@@ -16,22 +16,22 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
 //Maybe create 2 controllers, one for movies and one for users
-public class Neo4jControllerUsers {
+public class UsersController {
 	private UserEntity loggedUser;
-	private static Neo4jControllerUsers instance = null;
+	private static UsersController instance = null;
 //	private final String SERVER_ROOT_URI = "http://localhost:7474/db/data/";
 //	private final RestGraphDatabase graphDatabase;
 //	private final RestCypherQueryEngine cypherQueryEngine;
 	
-	private Neo4jControllerUsers() {
+	private UsersController() {
 //		this.graphDatabase = new RestGraphDatabase(SERVER_ROOT_URI);
 //		this.cypherQueryEngine = new RestCypherQueryEngine(graphDatabase.getRestAPI());
 	}
 	
-	public static Neo4jControllerUsers getInstance() {
+	public static UsersController getInstance() {
 		if (instance == null) {
-			synchronized (Neo4jControllerUsers.class) {
-				instance = new Neo4jControllerUsers();
+			synchronized (UsersController.class) {
+				instance = new UsersController();
 			}
 		}
 		return instance;

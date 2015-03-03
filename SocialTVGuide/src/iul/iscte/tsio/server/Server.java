@@ -6,27 +6,10 @@ import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 
 public class Server {
-	final static String SERVER_ROOT_URI = "http://52.10.21.89:7474/db/data/";
-	final static String username = "username";
-	final static String password = "password";
+	private static String SERVER_ROOT_URI;
 	private static Server instance = null;
 
-	private Server(){
-		Client client = Client.create();
-		client.addFilter(new HTTPBasicAuthFilter(username, password));
-		WebResource resource = client.resource(SERVER_ROOT_URI);
-		ClientResponse response = resource.get(ClientResponse.class);
-
-		if (response.getStatus() != 200) {
-			System.out.println(String.format(
-					"Server is unavailable, status code [%d]",
-					response.getStatus()));
-			response.close();
-		} else {
-			System.out.println(String.format("GET on [%s], status code [%d]",
-					SERVER_ROOT_URI, response.getStatus()));
-		}
-	}
+	private Server(){}
 	
 	public static Server getInstance() {
 		if (instance == null) {
@@ -39,5 +22,22 @@ public class Server {
 	
 	public String getServer_ROOT_URI(){
 		return SERVER_ROOT_URI;
+	}
+	
+	public void login(String serverAddress){
+		SERVER_ROOT_URI = serverAddress;
+		Client client = Client.create();
+		WebResource resource = client.resource(SERVER_ROOT_URI);
+		ClientResponse response = resource.get(ClientResponse.class);
+
+		if (response.getStatus() != 200) {
+			System.out.println(String.format(
+					"Server is unavailable, status code [%d]",
+					response.getStatus()));
+			response.close();
+		} else {
+			System.out.println(String.format("GET on [%s], status code [%d]",
+					SERVER_ROOT_URI, response.getStatus()));
+		}
 	}
 }

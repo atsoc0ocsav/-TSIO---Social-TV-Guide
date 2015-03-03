@@ -34,7 +34,30 @@ public class ProgramDAOImpl implements ProgramDAO {
 
 	@Override
 	public ProgramEntity getProgramByTitle(String title) {
-		return null;
+		String query = "Match (n:Program) WHERE n.title=\"" + title + "\" return n;";
+		Iterable<Node> user = cypherQueryEngine.query(query, null).to(
+				Node.class);
+		ProgramEntity aux = null;
+		if (user.iterator().hasNext()) {
+			Node auxNode = user.iterator().next();
+			if (auxNode.getProperty("type").toString().compareTo("Movie") == 0) {
+				aux = new ProgramEntity(auxNode.getId(), auxNode
+						.getProperty("title").toString(), auxNode.getProperty(
+						"type").toString(), Integer.parseInt(auxNode
+						.getProperty("runtime").toString()), auxNode
+						.getProperty("description").toString());
+			} else {
+				aux = new ProgramEntity(auxNode.getId(), auxNode
+						.getProperty("title").toString(), auxNode.getProperty(
+						"type").toString(), Integer.parseInt(auxNode
+						.getProperty("runtime").toString()), auxNode
+						.getProperty("description").toString(), Integer
+						.parseInt(auxNode.getProperty("season").toString()),
+						Integer.parseInt(auxNode.getProperty("episodeNumber")
+								.toString()));
+			}
+		}
+		return aux;
 	}
 
 	@Override

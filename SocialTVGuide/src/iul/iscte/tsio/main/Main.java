@@ -3,11 +3,17 @@ package iul.iscte.tsio.main;
 import iul.iscte.tsio.controller.UsersController;
 import iul.iscte.tsio.server.Server;
 
+import java.util.Scanner;
+
 public class Main {
 
 	public static void main(String[] args) {
-		Server.getInstance();
+		System.out.println("Enter the server address: ");
+	    Scanner scanner = new Scanner(System.in);
+	    String serverAddress = scanner.nextLine();
+		Server.getInstance().login(serverAddress);
 		// Create GUI
-		boolean authetincated = UsersController.getInstance().login("test");
+		boolean authetincated = UsersController.getInstance().login("test@test.pt");
+		System.out.println(authetincated);
 	}
 }

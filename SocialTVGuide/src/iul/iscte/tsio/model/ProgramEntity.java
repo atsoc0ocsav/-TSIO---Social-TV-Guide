@@ -1,7 +1,5 @@
 package iul.iscte.tsio.model;
 
-import java.util.Calendar;
-
 public class ProgramEntity {
 
 	private String title;

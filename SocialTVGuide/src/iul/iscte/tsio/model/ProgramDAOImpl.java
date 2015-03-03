@@ -1,14 +1,14 @@
 package iul.iscte.tsio.model;
 
+import iul.iscte.tsio.interfaces.ProgramDAO;
+import iul.iscte.tsio.server.Server;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.neo4j.graphdb.Node;
 import org.neo4j.rest.graphdb.RestGraphDatabase;
 import org.neo4j.rest.graphdb.query.RestCypherQueryEngine;
-
-import iul.iscte.tsio.interfaces.ProgramDAO;
-import iul.iscte.tsio.server.Server;
 
 public class ProgramDAOImpl implements ProgramDAO {
 
@@ -102,6 +102,77 @@ public class ProgramDAOImpl implements ProgramDAO {
 	public boolean updateProgram(ProgramEntity userToUpdate) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public boolean createRecommendedRelationship(UserEntity user,
+			ProgramEntity program) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean deleteRecommendRelationship(UserEntity user,
+			ProgramEntity program) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean hasUserRecommendProgram(UserEntity user,
+			ProgramEntity program) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<ProgramEntity> getAllRecommendProgramsByUser(UserEntity user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ProgramEntity> getAllRecommendProgramsByFriends(UserEntity user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ProgramEntity> getAllRecommendPrograms(UserEntity user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean createWatchedRelationship(UserEntity user,
+			ProgramEntity program) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean deleteWatchedRelationship(UserEntity user,
+			ProgramEntity program) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean hasUserWatchedProgram(UserEntity user, ProgramEntity program) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<ProgramEntity> getAllWatchedProgramsByUser(UserEntity user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ProgramEntity> getAllWatchProgramsByFriends(UserEntity user) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

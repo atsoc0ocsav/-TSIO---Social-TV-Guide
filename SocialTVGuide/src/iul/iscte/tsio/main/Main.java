@@ -11,6 +11,7 @@ public class Main {
 		System.out.println("Enter the server address: ");
 	    Scanner scanner = new Scanner(System.in);
 	    String serverAddress = scanner.nextLine();
+	    scanner.close();
 		Server.getInstance().login(serverAddress);
 		// Create GUI
 		boolean authetincated = UsersController.getInstance().login("test@test.pt");

@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.neo4j.graphdb.Node;
 import org.neo4j.rest.graphdb.RestAPIFacade;
-import org.neo4j.rest.graphdb.RestGraphDatabase;
 import org.neo4j.rest.graphdb.query.RestCypherQueryEngine;
 
 public class UserDAOImpl implements UserDAO {
@@ -113,5 +112,37 @@ public class UserDAOImpl implements UserDAO {
 		// TODO Get All fields from UserEntity; Get NodeID; Change Node With All
 		// Fields
 		return false;
+	}
+
+	@Override
+	public boolean createFriendshipRelationship(UserEntity user,
+			UserEntity friend) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean deleteFriendshipRelationship(UserEntity user,
+			UserEntity friend) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isUserFriend(UserEntity user, UserEntity friend) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<UserEntity> getAllFriends(UserEntity user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ProgramEntity> getAllFriendsRecommendations(UserEntity user) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

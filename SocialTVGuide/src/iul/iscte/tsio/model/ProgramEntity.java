@@ -4,9 +4,6 @@ public class ProgramEntity {
 
 	private String title;
 	private String type;
-	// private Calendar startTime;
-	// private Calendar endTime;
-	// private String channel;
 	private int runtime;
 	private String description;
 	private int season = 0;
@@ -18,9 +15,6 @@ public class ProgramEntity {
 		super();
 		this.title = title;
 		this.type = type;
-		// this.startTime = startTime;
-		// this.endTime = endTime;
-		// this.channel = channel;
 		this.runtime = runtime;
 		this.description = description;
 	}
@@ -30,9 +24,6 @@ public class ProgramEntity {
 		super();
 		this.title = title;
 		this.type = type;
-		// this.startTime = startTime;
-		// this.endTime = endTime;
-		// this.channel = channel;
 		this.runtime = runtime;
 		this.description = description;
 		this.nodeId = nodeId;
@@ -43,9 +34,6 @@ public class ProgramEntity {
 		super();
 		this.title = title;
 		this.type = type;
-		// this.startTime = startTime;
-		// this.endTime = endTime;
-		// this.channel = channel;
 		this.runtime = runtime;
 		this.description = description;
 		this.season = season;
@@ -57,9 +45,6 @@ public class ProgramEntity {
 		super();
 		this.title = title;
 		this.type = type;
-		// this.startTime = startTime;
-		// this.endTime = endTime;
-		// this.channel = channel;
 		this.runtime = runtime;
 		this.description = description;
 		this.season = season;
@@ -75,32 +60,12 @@ public class ProgramEntity {
 		return type;
 	}
 
-	// public Calendar getStartTime() {
-	// return startTime;
-	// }
-	//
-	// public Calendar getEndTime() {
-	// return endTime;
-	// }
-	//
-	// public String getChannel() {
-	// return channel;
-	// }
-
 	public int getRuntime() {
 		return runtime;
 	}
 
 	public String getDescription() {
 		return description;
-	}
-	
-	public long getId(){
-		return nodeId;
-	}
-	
-	public void setId(long nodeId){
-		this.nodeId = nodeId;
 	}
 
 	public int getSeason() {

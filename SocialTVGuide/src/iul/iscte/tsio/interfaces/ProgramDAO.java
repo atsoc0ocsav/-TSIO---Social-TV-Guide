@@ -7,19 +7,18 @@ import java.util.List;
 
 public interface ProgramDAO {
 	public ProgramEntity getProgramByTitle(String title);
-	public boolean updateProgram(ProgramEntity userToUpdate);
-	public boolean insertUser(ProgramEntity programToInsert);
+	public boolean updateProgram(ProgramEntity programToUpdate);
+	public boolean insertProgram(ProgramEntity programToInsert);
 	public boolean deleteProgram(ProgramEntity programToDelete);
 	public List<ProgramEntity> getAllPrograms();
-	public boolean createRecommendedRelationship(UserEntity user, ProgramEntity program);
-	public boolean deleteRecommendRelationship(UserEntity user, ProgramEntity program);
-	public boolean hasUserRecommendProgram(UserEntity user, ProgramEntity program);
-	public List<ProgramEntity> getAllRecommendProgramsByUser(UserEntity user);
-	public List<ProgramEntity> getAllRecommendProgramsByFriends(UserEntity user);
-	public List<ProgramEntity> getAllRecommendPrograms(UserEntity user);
+	public boolean createLikedRelationship(UserEntity user, ProgramEntity program);
+	public boolean deleteLikedRelationship(UserEntity user, ProgramEntity program);
+	public boolean hasUserLikedProgram(UserEntity user, ProgramEntity program);
+	public List<ProgramEntity> getAllLikedProgramsByUser(UserEntity user);
+	public List<ProgramEntity> getAllLikedProgramsByFriends(UserEntity user);
 	public boolean createWatchedRelationship(UserEntity user, ProgramEntity program);
 	public boolean deleteWatchedRelationship(UserEntity user, ProgramEntity program);
 	public boolean hasUserWatchedProgram(UserEntity user, ProgramEntity program);
 	public List<ProgramEntity> getAllWatchedProgramsByUser(UserEntity user);
-	public List<ProgramEntity> getAllWatchProgramsByFriends(UserEntity user);
+	public List<ProgramEntity> getAllWatchedProgramsByFriends(UserEntity user);
 }

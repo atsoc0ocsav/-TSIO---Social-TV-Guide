@@ -19,8 +19,16 @@ public class UserDAOImpl implements UserDAO {
 	private UserDAOImpl() {
 		this.graphDatabase = new RestAPIFacade(Server.getInstance()
 				.getServer_ROOT_URI());
-		this.cypherQueryEngine = new RestCypherQueryEngine(
-				graphDatabase);
+		this.cypherQueryEngine = new RestCypherQueryEngine(graphDatabase);
+	}
+
+	public static UserDAOImpl getInstance() {
+		if (instance == null) {
+			synchronized (UserDAOImpl.class) {
+				instance = new UserDAOImpl();
+			}
+		}
+		return instance;
 	}
 
 	@Override
@@ -38,11 +46,6 @@ public class UserDAOImpl implements UserDAO {
 		}
 		return null;
 	}
-
-	// @Override
-	// public boolean updateUser(UserEntity userToUpdate, String oldEmail) {
-	// return false;
-	// }
 
 	@Override
 	public boolean insertUser(UserEntity userToInsert) {
@@ -65,6 +68,21 @@ public class UserDAOImpl implements UserDAO {
 				Node.class);
 		if (!user.iterator().hasNext()) {
 			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean updateUser(UserEntity userToUpdate) {
+		String query = "Match u:User Where id(u)=" + userToUpdate.getNodeId() + "u.username: \""
+				+ userToUpdate.getUsername() + "\", u.email: \""
+				+ userToUpdate.getEmail() + "\" Return u;";
+		Iterable<Node> user = cypherQueryEngine.query(query, null).to(
+				Node.class);
+		if (user.iterator().hasNext()) {
+			Node aux = user.iterator().next();
+			if (aux.getProperty("username").toString().compareTo(userToUpdate.getUsername())==0 && aux.getProperty("email").toString().compareTo(userToUpdate.getUsername())==0)
+				return true;
 		}
 		return false;
 	}
@@ -98,51 +116,57 @@ public class UserDAOImpl implements UserDAO {
 		return auxList;
 	}
 
-	public static UserDAOImpl getInstance() {
-		if (instance == null) {
-			synchronized (UserDAOImpl.class) {
-				instance = new UserDAOImpl();
-			}
-		}
-		return instance;
-	}
-
-	@Override
-	public boolean updateUser(UserEntity userToUpdate) {
-		// TODO Get All fields from UserEntity; Get NodeID; Change Node With All
-		// Fields
-		return false;
-	}
-
 	@Override
 	public boolean createFriendshipRelationship(UserEntity user,
 			UserEntity friend) {
-		// TODO Auto-generated method stub
+		String query = "MATCH (n:User), (m:User) WHERE id(n)=" + user.getNodeId() + "AND id(m) = " + friend.getNodeId() +" MERGE (n)-[r:Friend]->(m) Return r";
+		Iterable<Node> relationship = cypherQueryEngine.query(query, null).to(
+				Node.class);
+		if (relationship.iterator().hasNext()) {
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public boolean deleteFriendshipRelationship(UserEntity user,
 			UserEntity friend) {
-		// TODO Auto-generated method stub
+		String query = "MATCH (n:User)-[r:Friend]->(m:User) WHERE id(n)=" + user.getNodeId() + "AND id(m) = " + friend.getNodeId() +" Delete r Return r";
+		Iterable<Node> relationship = cypherQueryEngine.query(query, null).to(
+				Node.class);
+		if (!relationship.iterator().hasNext()) {
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public boolean isUserFriend(UserEntity user, UserEntity friend) {
-		// TODO Auto-generated method stub
+		String query = "Match (u1:User)-[:Friend]->(u2:User) Where id(u1)="
+				+ user.getNodeId() + " And id(u2)=" + friend.getNodeId()
+				+ " return count(p);";
+		Iterable<Node> count = cypherQueryEngine.query(query, null).to(
+				Node.class);
+		int auxCount = Integer.valueOf(count.iterator().next()
+				.getProperty("count").toString());
+		if (auxCount != 0)
+			return true;
 		return false;
 	}
 
 	@Override
 	public List<UserEntity> getAllFriends(UserEntity user) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<ProgramEntity> getAllFriendsRecommendations(UserEntity user) {
-		// TODO Auto-generated method stub
-		return null;
+		String query = "Match (u1:User)-[:Friend]->(u2:User) Where id(u1)="
+				+ user.getNodeId() + " return n;";
+		Iterable<Node> friends = cypherQueryEngine.query(query, null).to(
+				Node.class);
+		List<UserEntity> auxList = new ArrayList<UserEntity>();
+		while (!friends.iterator().hasNext()) {
+			Node auxNode = friends.iterator().next();
+			auxList.add(new UserEntity(auxNode.getId(), auxNode.getProperty(
+					"username").toString(), auxNode.getProperty("email")
+					.toString()));
+		}
+		return auxList;
 	}
 }

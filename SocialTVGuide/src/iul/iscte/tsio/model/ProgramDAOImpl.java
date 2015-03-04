@@ -34,25 +34,26 @@ public class ProgramDAOImpl implements ProgramDAO {
 
 	@Override
 	public ProgramEntity getProgramByTitle(String title) {
-		String query = "Match (n:Program) WHERE n.title=\"" + title + "\" return n;";
+		String query = "Match (n:Program) WHERE n.title=\"" + title
+				+ "\" return n;";
 		Iterable<Node> user = cypherQueryEngine.query(query, null).to(
 				Node.class);
 		ProgramEntity aux = null;
 		if (user.iterator().hasNext()) {
 			Node auxNode = user.iterator().next();
 			if (auxNode.getProperty("type").toString().compareTo("Movie") == 0) {
-				aux = new ProgramEntity(auxNode.getId(), auxNode
-						.getProperty("title").toString(), auxNode.getProperty(
-						"type").toString(), Integer.parseInt(auxNode
-						.getProperty("runtime").toString()), auxNode
-						.getProperty("description").toString());
+				aux = new ProgramEntity(auxNode.getId(), auxNode.getProperty(
+						"title").toString(), auxNode.getProperty("type")
+						.toString(), Integer.parseInt(auxNode.getProperty(
+						"runtime").toString()), auxNode.getProperty(
+						"description").toString());
 			} else {
-				aux = new ProgramEntity(auxNode.getId(), auxNode
-						.getProperty("title").toString(), auxNode.getProperty(
-						"type").toString(), Integer.parseInt(auxNode
-						.getProperty("runtime").toString()), auxNode
-						.getProperty("description").toString(), Integer
-						.parseInt(auxNode.getProperty("season").toString()),
+				aux = new ProgramEntity(auxNode.getId(), auxNode.getProperty(
+						"title").toString(), auxNode.getProperty("type")
+						.toString(), Integer.parseInt(auxNode.getProperty(
+						"runtime").toString()), auxNode.getProperty(
+						"description").toString(), Integer.parseInt(auxNode
+						.getProperty("season").toString()),
 						Integer.parseInt(auxNode.getProperty("episodeNumber")
 								.toString()));
 			}
@@ -61,12 +62,67 @@ public class ProgramDAOImpl implements ProgramDAO {
 	}
 
 	@Override
-	public boolean insertUser(ProgramEntity programToInsert) {
+	public boolean insertProgram(ProgramEntity programToInsert) {
+		String query = "";
+		if (programToInsert.getType() == "Movie") {
+			query = "Create (p:Program {title: \"" + programToInsert.getTitle()
+					+ "\", description: \"" + programToInsert.getDescription()
+					+ "\", type:\"" + programToInsert.getType()
+					+ "\", runtime:\"" + programToInsert.getRuntime()
+					+ "\"}) Return p;";
+		} else {
+			query = "Create (p:Program {title: \"" + programToInsert.getTitle()
+					+ "\", description: \"" + programToInsert.getDescription()
+					+ "\", type:\"" + programToInsert.getType()
+					+ "\", runtime:\"" + programToInsert.getRuntime()
+					+ "\", season\"" + programToInsert.getSeason()
+					+ "\", episode:\"" + programToInsert.getEpisodeNumber()
+					+ "\"}) Return p;";
+		}
+		Iterable<Node> user = cypherQueryEngine.query(query, null).to(
+				Node.class);
+		if (user.iterator().hasNext()) {
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public boolean deleteProgram(ProgramEntity programToDelete) {
+		String query = "Match (p:Program) Where id(p)="
+				+ programToDelete.getNodeId() + " Delete p Return p;";
+		Iterable<Node> program = cypherQueryEngine.query(query, null).to(
+				Node.class);
+		if (!program.iterator().hasNext()) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean updateProgram(ProgramEntity programToUpdate) {
+		//Review boolean verification
+		String query = "";
+		if (programToUpdate.getType() == "Movie") {
+			query = "Match p:Program Where id(p)=" + programToUpdate.getNodeId() + " Set  p.title: \"" + programToUpdate.getTitle()
+					+ "\", p.description: \"" + programToUpdate.getDescription()
+					+ "\", p.type:\"" + programToUpdate.getType()
+					+ "\", p.runtime:\"" + programToUpdate.getRuntime()
+					+ "\" Return p;";
+		} else {
+			query = "Match p:Program Where id(p)=" + programToUpdate.getNodeId() + "p.title: \"" + programToUpdate.getTitle()
+					+ "\", p.description: \"" + programToUpdate.getDescription()
+					+ "\", p.type:\"" + programToUpdate.getType()
+					+ "\", p.runtime:\"" + programToUpdate.getRuntime()
+					+ "\", p.season\"" + programToUpdate.getSeason()
+					+ "\", p.episode:\"" + programToUpdate.getEpisodeNumber()
+					+ "\" Return p;";
+		}
+		Iterable<Node> user = cypherQueryEngine.query(query, null).to(
+				Node.class);
+		if (user.iterator().hasNext()) {
+			return true;
+		}
 		return false;
 	}
 
@@ -99,80 +155,195 @@ public class ProgramDAOImpl implements ProgramDAO {
 	}
 
 	@Override
-	public boolean updateProgram(ProgramEntity userToUpdate) {
-		// TODO Auto-generated method stub
-		return false;
+	public List<ProgramEntity> getAllLikedProgramsByUser(UserEntity user) {
+		String query = "Match (u:User)-[:Liked]->(p:Program) WHERE id(u)="
+				+ user.getNodeId() + " return p;";
+		Iterable<Node> program = cypherQueryEngine.query(query, null).to(
+				Node.class);
+		ArrayList<ProgramEntity> aux = new ArrayList<ProgramEntity>();
+		if (program.iterator().hasNext()) {
+			Node auxNode = program.iterator().next();
+			if (auxNode.getProperty("type").toString().compareTo("Movie") == 0) {
+				aux.add(new ProgramEntity(auxNode.getId(), auxNode.getProperty(
+						"title").toString(), auxNode.getProperty("type")
+						.toString(), Integer.parseInt(auxNode.getProperty(
+						"runtime").toString()), auxNode.getProperty(
+						"description").toString()));
+			} else {
+				aux.add(new ProgramEntity(auxNode.getId(), auxNode.getProperty(
+						"title").toString(), auxNode.getProperty("type")
+						.toString(), Integer.parseInt(auxNode.getProperty(
+						"runtime").toString()), auxNode.getProperty(
+						"description").toString(), Integer.parseInt(auxNode
+						.getProperty("season").toString()), Integer
+						.parseInt(auxNode.getProperty("episodeNumber")
+								.toString())));
+			}
+		}
+		return aux;
 	}
 
 	@Override
-	public boolean createRecommendedRelationship(UserEntity user,
-			ProgramEntity program) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean deleteRecommendRelationship(UserEntity user,
-			ProgramEntity program) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean hasUserRecommendProgram(UserEntity user,
-			ProgramEntity program) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public List<ProgramEntity> getAllRecommendProgramsByUser(UserEntity user) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<ProgramEntity> getAllRecommendProgramsByFriends(UserEntity user) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<ProgramEntity> getAllRecommendPrograms(UserEntity user) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ProgramEntity> getAllLikedProgramsByFriends(UserEntity user) {
+		String query = "Match (u1:User)-[:Friend]->(u2:User)->[:Liked]->(p:Program) WHERE id(u1)="
+				+ user.getNodeId() + " return p;";
+		Iterable<Node> program = cypherQueryEngine.query(query, null).to(
+				Node.class);
+		ArrayList<ProgramEntity> aux = new ArrayList<ProgramEntity>();
+		if (program.iterator().hasNext()) {
+			Node auxNode = program.iterator().next();
+			if (auxNode.getProperty("type").toString().compareTo("Movie") == 0) {
+				aux.add(new ProgramEntity(auxNode.getId(), auxNode.getProperty(
+						"title").toString(), auxNode.getProperty("type")
+						.toString(), Integer.parseInt(auxNode.getProperty(
+						"runtime").toString()), auxNode.getProperty(
+						"description").toString()));
+			} else {
+				aux.add(new ProgramEntity(auxNode.getId(), auxNode.getProperty(
+						"title").toString(), auxNode.getProperty("type")
+						.toString(), Integer.parseInt(auxNode.getProperty(
+						"runtime").toString()), auxNode.getProperty(
+						"description").toString(), Integer.parseInt(auxNode
+						.getProperty("season").toString()), Integer
+						.parseInt(auxNode.getProperty("episodeNumber")
+								.toString())));
+			}
+		}
+		return aux;
 	}
 
 	@Override
 	public boolean createWatchedRelationship(UserEntity user,
 			ProgramEntity program) {
-		// TODO Auto-generated method stub
+		String query = "MATCH (n:User), (m:Program) WHERE id(n)=" + user.getNodeId() + "AND id(m) = " + program.getNodeId() +" MERGE (n)-[r:Watched]->(m) Return r";
+		Iterable<Node> relationship = cypherQueryEngine.query(query, null).to(
+				Node.class);
+		if (relationship.iterator().hasNext()) {
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public boolean deleteWatchedRelationship(UserEntity user,
 			ProgramEntity program) {
-		// TODO Auto-generated method stub
+		String query = "MATCH (n:User)-[r:Watched]->(m:Program) WHERE id(n)=" + user.getNodeId() + "AND id(m) = " + program.getNodeId() +"Delete r Return r";
+		Iterable<Node> relationship = cypherQueryEngine.query(query, null).to(
+				Node.class);
+		if (!relationship.iterator().hasNext()) {
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public boolean hasUserWatchedProgram(UserEntity user, ProgramEntity program) {
-		// TODO Auto-generated method stub
+		String query = "Match (u:User)-[:Watched]->(p:Program) Where id(u)="
+				+ user.getNodeId() + " And id(p)=" + program.getNodeId()
+				+ " return count(p);";
+		Iterable<Node> count = cypherQueryEngine.query(query, null).to(
+				Node.class);
+		int auxCount = Integer.valueOf(count.iterator().next()
+				.getProperty("count").toString());
+		if (auxCount != 0)
+			return true;
 		return false;
 	}
 
 	@Override
 	public List<ProgramEntity> getAllWatchedProgramsByUser(UserEntity user) {
-		// TODO Auto-generated method stub
-		return null;
+		String query = "Match (u:User)-[:Watched]->(p:Program) WHERE id(u)="
+				+ user.getNodeId() + " return p;";
+		Iterable<Node> program = cypherQueryEngine.query(query, null).to(
+				Node.class);
+		ArrayList<ProgramEntity> aux = new ArrayList<ProgramEntity>();
+		if (program.iterator().hasNext()) {
+			Node auxNode = program.iterator().next();
+			if (auxNode.getProperty("type").toString().compareTo("Movie") == 0) {
+				aux.add(new ProgramEntity(auxNode.getId(), auxNode.getProperty(
+						"title").toString(), auxNode.getProperty("type")
+						.toString(), Integer.parseInt(auxNode.getProperty(
+						"runtime").toString()), auxNode.getProperty(
+						"description").toString()));
+			} else {
+				aux.add(new ProgramEntity(auxNode.getId(), auxNode.getProperty(
+						"title").toString(), auxNode.getProperty("type")
+						.toString(), Integer.parseInt(auxNode.getProperty(
+						"runtime").toString()), auxNode.getProperty(
+						"description").toString(), Integer.parseInt(auxNode
+						.getProperty("season").toString()), Integer
+						.parseInt(auxNode.getProperty("episodeNumber")
+								.toString())));
+			}
+		}
+		return aux;
 	}
 
 	@Override
-	public List<ProgramEntity> getAllWatchProgramsByFriends(UserEntity user) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ProgramEntity> getAllWatchedProgramsByFriends(UserEntity user) {
+		String query = "Match (u1:User)-[:Friend]->(u2:User)-[:Watched]->(p:Program) WHERE id(u1)="
+				+ user.getNodeId() + " return p;";
+		Iterable<Node> program = cypherQueryEngine.query(query, null).to(
+				Node.class);
+		ArrayList<ProgramEntity> aux = new ArrayList<ProgramEntity>();
+		if (program.iterator().hasNext()) {
+			Node auxNode = program.iterator().next();
+			if (auxNode.getProperty("type").toString().compareTo("Movie") == 0) {
+				aux.add(new ProgramEntity(auxNode.getId(), auxNode.getProperty(
+						"title").toString(), auxNode.getProperty("type")
+						.toString(), Integer.parseInt(auxNode.getProperty(
+						"runtime").toString()), auxNode.getProperty(
+						"description").toString()));
+			} else {
+				aux.add(new ProgramEntity(auxNode.getId(), auxNode.getProperty(
+						"title").toString(), auxNode.getProperty("type")
+						.toString(), Integer.parseInt(auxNode.getProperty(
+						"runtime").toString()), auxNode.getProperty(
+						"description").toString(), Integer.parseInt(auxNode
+						.getProperty("season").toString()), Integer
+						.parseInt(auxNode.getProperty("episodeNumber")
+								.toString())));
+			}
+		}
+		return aux;
+	}
+
+	@Override
+	public boolean createLikedRelationship(UserEntity user,
+			ProgramEntity program) {
+		String query = "MATCH (n:User), (m:Program) WHERE id(n)=" + user.getNodeId() + "AND id(m) = " + program.getNodeId() +" MERGE (n)-[r:Liked]->(m) Return r";
+		Iterable<Node> relationship = cypherQueryEngine.query(query, null).to(
+				Node.class);
+		if (relationship.iterator().hasNext()) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean deleteLikedRelationship(UserEntity user,
+			ProgramEntity program) {
+		String query = "MATCH (n:User)-[r:Liked]->(m:Program) WHERE id(n)=" + user.getNodeId() + "AND id(m) = " + program.getNodeId() +"Delete r Return r";
+		Iterable<Node> relationship = cypherQueryEngine.query(query, null).to(
+				Node.class);
+		if (!relationship.iterator().hasNext()) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean hasUserLikedProgram(UserEntity user, ProgramEntity program) {
+		String query = "Match (u:User)-[:Liked]->(p:Program) Where id(u)="
+				+ user.getNodeId() + " And id(p)=" + program.getNodeId()
+				+ " return count(p);";
+		Iterable<Node> count = cypherQueryEngine.query(query, null).to(
+				Node.class);
+		int auxCount = Integer.valueOf(count.iterator().next()
+				.getProperty("count").toString());
+		if (auxCount != 0)
+			return true;
+		return false;
 	}
 
 }

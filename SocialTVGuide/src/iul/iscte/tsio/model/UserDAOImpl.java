@@ -37,8 +37,13 @@ public class UserDAOImpl implements UserDAO {
 		String query = "Match (n:User) Where n.email=\"" + email
 				+ "\" return n;";
 		System.out.println(query);
-		Iterable<Node> user = cypherQueryEngine.query(query, null).to(
-				Node.class);
+		Iterable<Node> user = null;
+		try {
+			user = cypherQueryEngine.query(query, null).to(Node.class);
+		} catch (Exception e) {
+			System.err.print("Something went wrong, please call techSupport");
+			e.printStackTrace(); 	
+		}
 		if (user.iterator().hasNext()) {
 			Node aux = user.iterator().next();
 			return new UserEntity(aux.getId(), aux.getProperty("username")
@@ -52,8 +57,13 @@ public class UserDAOImpl implements UserDAO {
 		String query = "Create (u:User {username: \""
 				+ userToInsert.getUsername() + "\", email: \""
 				+ userToInsert.getEmail() + "\"}) Return u;";
-		Iterable<Node> user = cypherQueryEngine.query(query, null).to(
-				Node.class);
+		Iterable<Node> user = null;
+		try {
+			user = cypherQueryEngine.query(query, null).to(Node.class);
+		} catch (Exception e) {
+			System.err.print("Something went wrong, please call techSupport");
+			e.printStackTrace(); 	
+		}
 		if (user.iterator().hasNext()) {
 			return true;
 		}
@@ -64,8 +74,13 @@ public class UserDAOImpl implements UserDAO {
 	public boolean deleteUser(UserEntity userToDelete) {
 		String query = "Match (u:User) Where id(u)=" + userToDelete.getNodeId()
 				+ " Delete u Return u;";
-		Iterable<Node> user = cypherQueryEngine.query(query, null).to(
-				Node.class);
+		Iterable<Node> user = null;
+		try {
+			user = cypherQueryEngine.query(query, null).to(Node.class);
+		} catch (Exception e) {
+			System.err.print("Something went wrong, please call techSupport");
+			e.printStackTrace(); 	
+		}
 		if (!user.iterator().hasNext()) {
 			return true;
 		}
@@ -77,8 +92,13 @@ public class UserDAOImpl implements UserDAO {
 		String query = "Match u:User Where id(u)=" + userToUpdate.getNodeId() + "u.username: \""
 				+ userToUpdate.getUsername() + "\", u.email: \""
 				+ userToUpdate.getEmail() + "\" Return u;";
-		Iterable<Node> user = cypherQueryEngine.query(query, null).to(
-				Node.class);
+		Iterable<Node> user = null;
+		try {
+			user = cypherQueryEngine.query(query, null).to(Node.class);
+		} catch (Exception e) {
+			System.err.print("Something went wrong, please call techSupport");
+			e.printStackTrace(); 	
+		}
 		if (user.iterator().hasNext()) {
 			Node aux = user.iterator().next();
 			if (aux.getProperty("username").toString().compareTo(userToUpdate.getUsername())==0 && aux.getProperty("email").toString().compareTo(userToUpdate.getUsername())==0)
@@ -91,8 +111,13 @@ public class UserDAOImpl implements UserDAO {
 	public UserEntity getUserByName(String username) {
 		String query = "Match (n:User) where n.username=\"" + username
 				+ "\" return n;";
-		Iterable<Node> user = cypherQueryEngine.query(query, null).to(
-				Node.class);
+		Iterable<Node> user = null;
+		try {
+			user = cypherQueryEngine.query(query, null).to(Node.class);
+		} catch (Exception e) {
+			System.err.print("Something went wrong, please call techSupport");
+			e.printStackTrace(); 	
+		}
 		if (!user.iterator().hasNext()) {
 			Node aux = user.iterator().next();
 			return new UserEntity(aux.getId(), aux.getProperty("username")
@@ -104,11 +129,16 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public List<UserEntity> getAllUsers() {
 		String query = "Match (n:User) return n;";
-		Iterable<Node> user = cypherQueryEngine.query(query, null).to(
-				Node.class);
+		Iterable<Node> users = null;
+		try {
+			users = cypherQueryEngine.query(query, null).to(Node.class);
+		} catch (Exception e) {
+			System.err.print("Something went wrong, please call techSupport");
+			e.printStackTrace(); 	
+		}
 		List<UserEntity> auxList = new ArrayList<UserEntity>();
-		while (!user.iterator().hasNext()) {
-			Node auxNode = user.iterator().next();
+		while (!users.iterator().hasNext()) {
+			Node auxNode = users.iterator().next();
 			auxList.add(new UserEntity(auxNode.getId(), auxNode.getProperty(
 					"username").toString(), auxNode.getProperty("email")
 					.toString()));
@@ -120,8 +150,13 @@ public class UserDAOImpl implements UserDAO {
 	public boolean createFriendshipRelationship(UserEntity user,
 			UserEntity friend) {
 		String query = "MATCH (n:User), (m:User) WHERE id(n)=" + user.getNodeId() + "AND id(m) = " + friend.getNodeId() +" MERGE (n)-[r:Friend]->(m) Return r";
-		Iterable<Node> relationship = cypherQueryEngine.query(query, null).to(
-				Node.class);
+		Iterable<Node> relationship = null;
+		try {
+			relationship = cypherQueryEngine.query(query, null).to(Node.class);
+		} catch (Exception e) {
+			System.err.print("Something went wrong, please call techSupport");
+			e.printStackTrace(); 	
+		}
 		if (relationship.iterator().hasNext()) {
 			return true;
 		}
@@ -131,9 +166,14 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public boolean deleteFriendshipRelationship(UserEntity user,
 			UserEntity friend) {
-		String query = "MATCH (n:User)-[r:Friend]->(m:User) WHERE id(n)=" + user.getNodeId() + "AND id(m) = " + friend.getNodeId() +" Delete r Return r";
-		Iterable<Node> relationship = cypherQueryEngine.query(query, null).to(
-				Node.class);
+		String query = "MATCH (n:User)-[r:Friend]->(m:User) WHERE id(n)=" + user.getNodeId() + "AND id(m)=" + friend.getNodeId() +" Delete r Return r";
+		Iterable<Node> relationship = null;
+		try {
+			relationship = cypherQueryEngine.query(query, null).to(Node.class);
+		} catch (Exception e) {
+			System.err.print("Something went wrong, please call techSupport");
+			e.printStackTrace(); 	
+		}
 		if (!relationship.iterator().hasNext()) {
 			return true;
 		}
@@ -142,11 +182,16 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public boolean isUserFriend(UserEntity user, UserEntity friend) {
-		String query = "Match (u1:User)-[:Friend]->(u2:User) Where id(u1)="
+		String query = "Match (u1:User)-[f:Friend]->(u2:User) Where id(u1)="
 				+ user.getNodeId() + " And id(u2)=" + friend.getNodeId()
-				+ " return count(p);";
-		Iterable<Node> count = cypherQueryEngine.query(query, null).to(
-				Node.class);
+				+ " return count(f);";
+		Iterable<Node> count = null;
+		try {
+			count = cypherQueryEngine.query(query, null).to(Node.class);
+		} catch (Exception e) {
+			System.err.print("Something went wrong, please call techSupport");
+			e.printStackTrace(); 	
+		}
 		int auxCount = Integer.valueOf(count.iterator().next()
 				.getProperty("count").toString());
 		if (auxCount != 0)
@@ -157,9 +202,14 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public List<UserEntity> getAllFriends(UserEntity user) {
 		String query = "Match (u1:User)-[:Friend]->(u2:User) Where id(u1)="
-				+ user.getNodeId() + " return n;";
-		Iterable<Node> friends = cypherQueryEngine.query(query, null).to(
-				Node.class);
+				+ user.getNodeId() + " return u2;";
+		Iterable<Node> friends = null;
+		try {
+			friends = cypherQueryEngine.query(query, null).to(Node.class);
+		} catch (Exception e) {
+			System.err.print("Something went wrong, please call techSupport");
+			e.printStackTrace(); 	
+		}
 		List<UserEntity> auxList = new ArrayList<UserEntity>();
 		while (!friends.iterator().hasNext()) {
 			Node auxNode = friends.iterator().next();

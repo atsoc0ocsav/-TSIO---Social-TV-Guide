@@ -27,6 +27,10 @@ public class UsersController {
 		}
 		return false;
 	}
+	
+	public UserEntity getLoggedUser(){
+		return loggedUser;
+	}
 
 	public boolean createUser(UserEntity userToInsert) {
 		return UserDAOImpl.getInstance().insertUser(userToInsert);

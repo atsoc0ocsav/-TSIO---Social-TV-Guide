@@ -3,7 +3,6 @@ package iul.iscte.tsio.server;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 
 public class Server {
 	private static String SERVER_ROOT_URI;

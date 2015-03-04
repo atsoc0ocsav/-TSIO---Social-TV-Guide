@@ -89,7 +89,7 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public boolean updateUser(UserEntity userToUpdate) {
-		String query = "Match u:User Where id(u)=" + userToUpdate.getNodeId() + "u.username: \""
+		String query = "Match (u:User) Where id(u)=" + userToUpdate.getNodeId() + "u.username: \""
 				+ userToUpdate.getUsername() + "\", u.email: \""
 				+ userToUpdate.getEmail() + "\" Return u;";
 		Iterable<Node> user = null;
@@ -182,7 +182,7 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public boolean isUserFriend(UserEntity user, UserEntity friend) {
-		String query = "Match (u1:User)-[f:Friend]->(u2:User) Where id(u1)="
+		String query = "Match (u1:User)<-[f:Friend]->(u2:User) Where id(u1)="
 				+ user.getNodeId() + " And id(u2)=" + friend.getNodeId()
 				+ " return count(f);";
 		Iterable<Node> count = null;
@@ -201,7 +201,7 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public List<UserEntity> getAllFriends(UserEntity user) {
-		String query = "Match (u1:User)-[:Friend]->(u2:User) Where id(u1)="
+		String query = "Match (u1:User)<-[:Friend]->(u2:User) Where id(u1)="
 				+ user.getNodeId() + " return u2;";
 		Iterable<Node> friends = null;
 		try {

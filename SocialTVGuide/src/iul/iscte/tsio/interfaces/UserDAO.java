@@ -15,4 +15,5 @@ public interface UserDAO {
 	public boolean deleteFriendshipRelationship(UserEntity user, UserEntity friend);
 	public boolean isUserFriend(UserEntity user, UserEntity friend);
 	public List<UserEntity> getAllFriends(UserEntity user);
+	public List<UserEntity> getUsersWithRegex(String name);
 }

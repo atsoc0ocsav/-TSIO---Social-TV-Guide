@@ -34,8 +34,8 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public UserEntity getUserByEmail(String email) {
 		// Ensure that email is unique
-		String query = "Match (n:User) Where n.email=\"" + email
-				+ "\" return n;";
+		String query = "Match (n:User) Where n.email='" + email
+				+ "' return n;";
 		System.out.println(query);
 		Iterable<Node> user = null;
 		try {
@@ -213,6 +213,28 @@ public class UserDAOImpl implements UserDAO {
 		List<UserEntity> auxList = new ArrayList<UserEntity>();
 		while (!friends.iterator().hasNext()) {
 			Node auxNode = friends.iterator().next();
+			auxList.add(new UserEntity(auxNode.getId(), auxNode.getProperty(
+					"username").toString(), auxNode.getProperty("email")
+					.toString()));
+		}
+		return auxList;
+	}
+
+	@Override
+	public List<UserEntity> getUsersWithRegex(String name) {
+		String query = "Match (n:User) Where n.name=~'" + name
+				+ ".*' return n;";
+		System.out.println(query);
+		Iterable<Node> users = null;
+		try {
+			users = cypherQueryEngine.query(query, null).to(Node.class);
+		} catch (Exception e) {
+			System.err.print("Something went wrong, please call techSupport");
+			e.printStackTrace(); 	
+		}
+		List<UserEntity> auxList = new ArrayList<UserEntity>();
+		while (!users.iterator().hasNext()) {
+			Node auxNode = users.iterator().next();
 			auxList.add(new UserEntity(auxNode.getId(), auxNode.getProperty(
 					"username").toString(), auxNode.getProperty("email")
 					.toString()));

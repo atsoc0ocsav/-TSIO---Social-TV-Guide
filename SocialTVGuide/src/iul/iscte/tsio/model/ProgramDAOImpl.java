@@ -242,7 +242,7 @@ public class ProgramDAOImpl implements ProgramDAO {
 
 	@Override
 	public List<ProgramEntity> getAllLikedProgramsByFriends(UserEntity user) {
-		String query = "Match (u1:User)<-[:Friend]->(u2:User)->[:Liked]->(p:Program) WHERE id(u1)="
+		String query = "Match (u1:User)<-[:Friend]->(u2:User)-[:Liked]->(p:Program) WHERE id(u1)="
 				+ user.getNodeId() + " return p;";
 		Iterable<Node> programs = null;
 		try {

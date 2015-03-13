@@ -107,4 +107,9 @@ public class ProgramEntity {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	@Override
+	public String toString() {
+		return title +  " - " + type  + " / " + description;
+	}
 }

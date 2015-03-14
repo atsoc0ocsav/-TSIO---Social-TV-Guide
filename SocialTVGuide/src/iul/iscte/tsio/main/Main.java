@@ -14,12 +14,14 @@ public class Main {
 		String serverAddress = scanner.nextLine();
 		scanner.close();
 		// Verify is /db/data is there
-		serverAddress = serverAddress + "/db/data";
+		//serverAddress = serverAddress + "/db/data";
+		
+		serverAddress = "http://52.10.21.89:7474/db/data/";
 
 		Server.getInstance().login(serverAddress);
 		// Create GUI
 		boolean authetincated = UsersController.getInstance().login(
-				"test@test.com");
+				"email3@email.com");
 		if (authetincated) {
 			UsersView.getInstance().setVisible(true);
 		}

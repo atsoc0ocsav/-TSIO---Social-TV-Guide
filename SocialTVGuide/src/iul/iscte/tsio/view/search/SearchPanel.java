@@ -33,7 +33,6 @@ public class SearchPanel extends JPanel {
 				if(text.length() > 0){
 					JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(SearchPanel.this);
 					new SearchResultView(topFrame, text).setVisible(true);
-					
 				}
 				
 			}

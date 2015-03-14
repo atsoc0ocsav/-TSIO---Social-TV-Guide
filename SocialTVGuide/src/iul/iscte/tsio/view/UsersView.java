@@ -2,7 +2,6 @@ package iul.iscte.tsio.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.GridLayout;
 
 import iul.iscte.tsio.controller.UsersController;
 import iul.iscte.tsio.utils.Labels;
@@ -13,7 +12,6 @@ import iul.iscte.tsio.view.program.UserRecommendationsListPanel;
 import iul.iscte.tsio.view.search.SearchPanel;
 
 import javax.swing.BorderFactory;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -63,6 +61,26 @@ public class UsersView extends JFrame {
 			instance = new UsersView();
 		}
 		return instance;
+	}
+
+	public SearchPanel getSearchPanel() {
+		return searchPanel;
+	}
+
+	public BasicActions getBasicActions() {
+		return basicActions;
+	}
+
+	public UserFriendsListPanel getFrendsList() {
+		return frendsList;
+	}
+
+	public UserInformation getUserInformation() {
+		return userInformation;
+	}
+
+	public UserRecommendationsListPanel getUserRecommendations() {
+		return userRecommendations;
 	}
 
 }

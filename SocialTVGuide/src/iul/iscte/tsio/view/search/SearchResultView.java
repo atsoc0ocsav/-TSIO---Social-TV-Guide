@@ -4,8 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import iul.iscte.tsio.controller.UsersController;
 import iul.iscte.tsio.model.ProgramEntity;
 import iul.iscte.tsio.utils.Labels;
+import iul.iscte.tsio.view.program.ProgramDetailsView;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -22,7 +24,7 @@ public class SearchResultView extends JDialog {
 	private JList<ProgramEntity> results;
 	private JScrollPane scrollPane;
 
-	public SearchResultView(JFrame frame, String text) {
+	public SearchResultView(final JFrame frame, String text) {
 		super(frame);
 		setTitle(Labels.SEARCHRESULTDIALOGTITLE.getValue() + " for \"" + text +  "\"");
 		setSize(400, 500);
@@ -31,6 +33,17 @@ public class SearchResultView extends JDialog {
 
 		JPanel aux = new JPanel();
 		aux.add(moreDetailsButton = new JButton(Labels.PROGRAMMOREDETAILS.getValue()));
+		moreDetailsButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ProgramEntity program = results.getSelectedValue();
+				if(program != null){
+					new ProgramDetailsView(frame, program, UsersController.getInstance().getLoggedUser()).setVisible(true);;
+				}
+				
+			}
+		});
 		aux.add(closeButton = new JButton(Labels.CLOSE.getValue()));
 		closeButton.addActionListener(new ActionListener() {
 			

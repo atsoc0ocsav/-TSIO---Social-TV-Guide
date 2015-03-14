@@ -14,7 +14,8 @@ public enum Labels {
 	SEARCHRESULTDIALOGTITLE("Search Results"), 
 	CLOSE("Close"), 
 	WATCH("Watch"), 
-	LIKE("Like");
+	LIKE("Like"), 
+	UNLIKE("UnLike");
 
 	private final String value;
 

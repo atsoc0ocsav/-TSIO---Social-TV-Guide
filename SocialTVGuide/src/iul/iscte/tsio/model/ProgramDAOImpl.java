@@ -4,11 +4,13 @@ import iul.iscte.tsio.interfaces.ProgramDAO;
 import iul.iscte.tsio.server.Server;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.neo4j.graphdb.Node;
 import org.neo4j.rest.graphdb.RestGraphDatabase;
 import org.neo4j.rest.graphdb.query.RestCypherQueryEngine;
+import org.neo4j.rest.graphdb.util.ConvertedResult;
 
 public class ProgramDAOImpl implements ProgramDAO {
 
@@ -252,9 +254,11 @@ public class ProgramDAOImpl implements ProgramDAO {
 			e.printStackTrace();
 		}
 		ArrayList<ProgramEntity> aux = new ArrayList<ProgramEntity>();
-		if (programs.iterator().hasNext()) {
-			Node auxNode = programs.iterator().next();
-			if (auxNode.getProperty("type").toString().compareTo("Movie") == 0) {
+		Iterator<Node> it = programs.iterator();
+		Node auxNode = null;
+		while (it.hasNext()) {
+			auxNode = it.next();
+			if (auxNode.getProperty("type").equals("Movie")) {
 				aux.add(new ProgramEntity(auxNode.getId(), auxNode.getProperty(
 						"title").toString(), auxNode.getProperty("type")
 						.toString(), Integer.parseInt(auxNode.getProperty(
@@ -267,7 +271,7 @@ public class ProgramDAOImpl implements ProgramDAO {
 						"runtime").toString()), auxNode.getProperty(
 						"description").toString(), Integer.parseInt(auxNode
 						.getProperty("season").toString()), Integer
-						.parseInt(auxNode.getProperty("episodeNumber")
+						.parseInt(auxNode.getProperty("episode")
 								.toString())));
 			}
 		}
@@ -278,7 +282,7 @@ public class ProgramDAOImpl implements ProgramDAO {
 	public boolean createWatchedRelationship(UserEntity user,
 			ProgramEntity program) {
 		String query = "MATCH (n:User), (m:Program) WHERE id(n)="
-				+ user.getNodeId() + "AND id(m) = " + program.getNodeId()
+				+ user.getNodeId() + " AND id(m)=" + program.getNodeId()
 				+ " MERGE (n)-[r:Watched]->(m) Return r";
 		Iterable<Node> relationship = null;
 		try {
@@ -317,15 +321,15 @@ public class ProgramDAOImpl implements ProgramDAO {
 		String query = "Match (u:User)-[:Watched]->(p:Program) Where id(u)="
 				+ user.getNodeId() + " And id(p)=" + program.getNodeId()
 				+ " return count(p);";
-		Iterable<Node> count = null;
+
+		ConvertedResult<Integer> count = null;
 		try {
-			count = cypherQueryEngine.query(query, null).to(Node.class);
+			count = cypherQueryEngine.query(query, null).to(Integer.class);
 		} catch (Exception e) {
 			System.err.print("Something went wrong, please call techSupport");
 			e.printStackTrace();
 		}
-		int auxCount = Integer.valueOf(count.iterator().next()
-				.getProperty("count").toString());
+		int auxCount = count.iterator().next();
 		if (auxCount != 0)
 			return true;
 		return false;
@@ -403,7 +407,7 @@ public class ProgramDAOImpl implements ProgramDAO {
 	public boolean createLikedRelationship(UserEntity user,
 			ProgramEntity program) {
 		String query = "MATCH (n:User), (m:Program) WHERE id(n)="
-				+ user.getNodeId() + "AND id(m) = " + program.getNodeId()
+				+ user.getNodeId() + " AND id(m)=" + program.getNodeId()
 				+ " MERGE (n)-[r:Liked]->(m) Return r";
 		Iterable<Node> relationship = null;
 		try {
@@ -421,9 +425,8 @@ public class ProgramDAOImpl implements ProgramDAO {
 	@Override
 	public boolean deleteLikedRelationship(UserEntity user,
 			ProgramEntity program) {
-		String query = "MATCH (n:User)-[r:Liked]->(m:Program) WHERE id(n)="
-				+ user.getNodeId() + "AND id(m) = " + program.getNodeId()
-				+ "Delete r Return r";
+		String query = "START n=node(" + user.getNodeId() +") MATCH (n:User)-[r:Liked]->(m:Program) WHERE id(m)=" + program.getNodeId()
+				+ " Delete r";
 		Iterable<Node> relationship = null;
 		try {
 			relationship = cypherQueryEngine.query(query, null).to(Node.class);
@@ -441,16 +444,16 @@ public class ProgramDAOImpl implements ProgramDAO {
 	public boolean hasUserLikedProgram(UserEntity user, ProgramEntity program) {
 		String query = "Match (u:User)-[:Liked]->(p:Program) Where id(u)="
 				+ user.getNodeId() + " And id(p)=" + program.getNodeId()
-				+ " return count(p);";
-		Iterable<Node> count = null;
+				+ " return count(p) as count;";
+		ConvertedResult<Integer> count = null;
 		try {
-			count = cypherQueryEngine.query(query, null).to(Node.class);
+			count = cypherQueryEngine.query(query, null).to(Integer.class);
 		} catch (Exception e) {
 			System.err.print("Something went wrong, please call techSupport");
 			e.printStackTrace(); 	
 		}
-		int auxCount = Integer.valueOf(count.iterator().next()
-				.getProperty("count").toString());
+		
+		int auxCount = count.iterator().next();
 		if (auxCount != 0)
 			return true;
 		return false;

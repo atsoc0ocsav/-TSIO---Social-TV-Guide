@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.util.List;
 import java.util.Vector;
 
+import iul.iscte.tsio.interfaces.Refreshable;
 import iul.iscte.tsio.model.UserDAOImpl;
 import iul.iscte.tsio.model.UserEntity;
 import iul.iscte.tsio.utils.Labels;
@@ -19,7 +20,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 
-public class UserFriendsListPanel extends JPanel {
+public class UserFriendsListPanel extends JPanel implements Refreshable{
 
 	private static final long serialVersionUID = 1L;
 	private UserEntity loggedUser;
@@ -27,6 +28,7 @@ public class UserFriendsListPanel extends JPanel {
 	private JButton deleteFriend;
 	private JScrollPane scrollPane;
 	private JList<UserEntity> friendsList;
+	private DefaultListModel<UserEntity> listModel;
 
 	public UserFriendsListPanel(UserEntity loggedUser) {
 		this.loggedUser = loggedUser;
@@ -39,19 +41,23 @@ public class UserFriendsListPanel extends JPanel {
 		aux.add(deleteFriend = new JButton(Labels.DELETEFRIENDBUTTON.getValue()));
 		add(aux, BorderLayout.SOUTH);
 
-		
-		// TODO - analisar melhor esta solução
-		List<UserEntity> data = UserDAOImpl.getInstance().getAllFriends(loggedUser);
-		// JList only accepts vector or array
-		Vector<UserEntity> userData = new Vector<UserEntity>();
-		for (UserEntity userEntity : data) {
-			userData.add(userEntity);
-		}
 
-		friendsList = new JList<UserEntity>(userData);
+		listModel = new DefaultListModel<UserEntity>();
+		friendsList = new JList<UserEntity>(listModel);
 		friendsList
 				.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		add(scrollPane = new JScrollPane(friendsList), BorderLayout.CENTER);
+		refresh();
+	}
+
+	@Override
+	public void refresh() {
+		listModel.clear();
+		List<UserEntity> data = UserDAOImpl.getInstance().getAllFriends(loggedUser);
+		for (UserEntity userEntity : data) {
+			listModel.addElement(userEntity);
+		}
+		
 	}
 
 }

@@ -4,6 +4,7 @@ import iul.iscte.tsio.interfaces.UserDAO;
 import iul.iscte.tsio.server.Server;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.neo4j.graphdb.Node;
@@ -211,8 +212,9 @@ public class UserDAOImpl implements UserDAO {
 			e.printStackTrace(); 	
 		}
 		List<UserEntity> auxList = new ArrayList<UserEntity>();
-		while (!friends.iterator().hasNext()) {
-			Node auxNode = friends.iterator().next();
+		Iterator<Node> it = friends.iterator();
+		while (it.hasNext()) {
+			Node auxNode = it.next();
 			auxList.add(new UserEntity(auxNode.getId(), auxNode.getProperty(
 					"username").toString(), auxNode.getProperty("email")
 					.toString()));

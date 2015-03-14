@@ -1,11 +1,9 @@
 package iul.iscte.tsio.view.panels;
 
-import java.awt.Color;
 
 import iul.iscte.tsio.model.UserEntity;
 import iul.iscte.tsio.utils.Labels;
 
-import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;

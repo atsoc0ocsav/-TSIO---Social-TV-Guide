@@ -15,8 +15,7 @@ public class Main {
 		scanner.close();
 		// Verify is /db/data is there
 		//serverAddress = serverAddress + "/db/data";
-		
-		serverAddress = "http://52.10.21.89:7474/db/data/";
+		serverAddress = serverAddress.concat("/db/data/");
 
 		Server.getInstance().login(serverAddress);
 		// Create GUI

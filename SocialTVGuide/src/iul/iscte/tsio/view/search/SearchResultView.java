@@ -5,8 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+import iul.iscte.tsio.controller.ProgramsController;
 import iul.iscte.tsio.controller.UsersController;
-import iul.iscte.tsio.model.ProgramDAOImpl;
 import iul.iscte.tsio.model.ProgramEntity;
 import iul.iscte.tsio.utils.Labels;
 import iul.iscte.tsio.view.program.ProgramDetailsView;
@@ -15,6 +15,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -59,7 +60,7 @@ public class SearchResultView extends JDialog {
 
 		add(aux, BorderLayout.SOUTH);
 		
-		List<ProgramEntity> list = ProgramDAOImpl.getInstance().getProgramsWithRegex(text);
+		List<ProgramEntity> list = ProgramsController.getInstance().getProgramsWithRegex(text);
 		DefaultListModel<ProgramEntity> listModel = new DefaultListModel<ProgramEntity>();
 		for (ProgramEntity programEntity : list) {
 			listModel.addElement(programEntity);
@@ -67,6 +68,12 @@ public class SearchResultView extends JDialog {
 		results = new JList<ProgramEntity>(listModel);
 		scrollPane = new JScrollPane(results);
 		add(scrollPane, BorderLayout.CENTER);
+		int count = listModel.getSize();
+		if(count == 0){
+			add(new JLabel("No results found"), BorderLayout.NORTH);
+		}else{
+			add(new JLabel(count + " result(s) found"), BorderLayout.NORTH);
+		}
 
 	}
 }

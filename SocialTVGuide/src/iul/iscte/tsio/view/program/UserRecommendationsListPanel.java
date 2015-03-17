@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Vector;
 
 import iul.iscte.tsio.controller.ProgramsController;
 import iul.iscte.tsio.interfaces.Refreshable;

@@ -9,11 +9,11 @@ import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 import javax.swing.border.EmptyBorder;
 
-public class UserInformation extends JPanel {
+public class UserInformationPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	public UserInformation(UserEntity loggedUser) {
+	public UserInformationPanel(UserEntity loggedUser) {
 		SpringLayout layout = new SpringLayout();
 		setLayout(layout);
 		setBorder(new EmptyBorder(5, 5, 5, 5) );

@@ -5,9 +5,9 @@ import java.awt.Color;
 
 import iul.iscte.tsio.controller.UsersController;
 import iul.iscte.tsio.utils.Labels;
-import iul.iscte.tsio.view.panels.BasicActions;
+import iul.iscte.tsio.view.panels.BasicActionsPanel;
 import iul.iscte.tsio.view.panels.UserFriendsListPanel;
-import iul.iscte.tsio.view.panels.UserInformation;
+import iul.iscte.tsio.view.panels.UserInformationPanel;
 import iul.iscte.tsio.view.program.UserRecommendationsListPanel;
 import iul.iscte.tsio.view.search.SearchPanel;
 
@@ -19,9 +19,9 @@ public class UsersView extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private SearchPanel searchPanel;
-	private BasicActions basicActions;
+	private BasicActionsPanel basicActions;
 	private UserFriendsListPanel frendsList;
-	private UserInformation userInformation;
+	private UserInformationPanel userInformation;
 	private UserRecommendationsListPanel userRecommendations;
 
 	private static UsersView instance;
@@ -47,9 +47,9 @@ public class UsersView extends JFrame {
                 1, 5, 1, 1, Color.gray));
 		getContentPane().add(aux);
 		
-		aux.add(userInformation = new UserInformation(UsersController.getInstance().getLoggedUser()), BorderLayout.CENTER);
+		aux.add(userInformation = new UserInformationPanel(UsersController.getInstance().getLoggedUser()), BorderLayout.CENTER);
 		
-		aux.add(basicActions = new BasicActions(), BorderLayout.SOUTH);
+		aux.add(basicActions = new BasicActionsPanel(), BorderLayout.SOUTH);
 		//aux.add(userRecommendations = new UserRecommendationsList(UsersController.getInstance().getLoggedUser()));
 		getContentPane().add(userRecommendations = new UserRecommendationsListPanel(UsersController.getInstance().getLoggedUser()),
 				BorderLayout.SOUTH);
@@ -67,7 +67,7 @@ public class UsersView extends JFrame {
 		return searchPanel;
 	}
 
-	public BasicActions getBasicActions() {
+	public BasicActionsPanel getBasicActions() {
 		return basicActions;
 	}
 
@@ -75,7 +75,7 @@ public class UsersView extends JFrame {
 		return frendsList;
 	}
 
-	public UserInformation getUserInformation() {
+	public UserInformationPanel getUserInformation() {
 		return userInformation;
 	}
 

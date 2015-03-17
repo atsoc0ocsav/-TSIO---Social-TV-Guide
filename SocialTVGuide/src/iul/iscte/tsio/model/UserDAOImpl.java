@@ -191,15 +191,14 @@ public class UserDAOImpl implements UserDAO {
 		String query = "Match (u1:User)<-[f:Friend]->(u2:User) Where id(u1)="
 				+ user.getNodeId() + " And id(u2)=" + friend.getNodeId()
 				+ " return count(f);";
-		Iterable<Node> count = Collections.emptyList();
+		Iterable<Integer> count = Collections.emptyList();
 		try {
-			count = cypherQueryEngine.query(query, null).to(Node.class);
+			count = cypherQueryEngine.query(query, null).to(Integer.class);
 		} catch (Exception e) {
 			System.err.print("Something went wrong, please call techSupport");
 			e.printStackTrace(); 	
 		}
-		int auxCount = Integer.valueOf(count.iterator().next()
-				.getProperty("count").toString());
+		int auxCount = count.iterator().next();
 		if (auxCount != 0)
 			return true;
 		return false;

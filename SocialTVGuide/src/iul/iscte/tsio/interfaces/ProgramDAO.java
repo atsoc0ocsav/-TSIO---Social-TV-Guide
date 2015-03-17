@@ -22,4 +22,5 @@ public interface ProgramDAO {
 	public List<ProgramEntity> getAllWatchedProgramsByUser(UserEntity user);
 	public List<ProgramEntity> getAllWatchedProgramsByFriends(UserEntity user);
 	public List<ProgramEntity> getProgramsWithRegex(String title);
+	public List<ProgramEntity> getAllRecommendProgramsForUser(UserEntity user);
 }

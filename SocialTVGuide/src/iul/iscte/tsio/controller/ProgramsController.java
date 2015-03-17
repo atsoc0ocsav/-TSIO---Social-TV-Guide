@@ -40,7 +40,7 @@ public class ProgramsController {
 
 	public ArrayList<ProgramEntity> getRecommendShowsForUser(UserEntity user) {
 		return (ArrayList<ProgramEntity>) ProgramDAOImpl.getInstance()
-				.getAllLikedProgramsByFriends(user);
+				.getAllRecommendProgramsForUser(user);
 	};
 
 	public boolean likeShow(UserEntity user, ProgramEntity program) {

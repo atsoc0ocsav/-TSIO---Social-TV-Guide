@@ -8,6 +8,7 @@ import iul.iscte.tsio.model.ProgramDAOImpl;
 import iul.iscte.tsio.model.ProgramEntity;
 import iul.iscte.tsio.model.UserEntity;
 import iul.iscte.tsio.utils.Labels;
+import iul.iscte.tsio.view.UsersView;
 
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
@@ -43,6 +44,7 @@ public class ProgramDetailsView extends JDialog {
 				ProgramDAOImpl.getInstance().createWatchedRelationship(loggedUser, program);
 				watch.setEnabled(false);
 				like.setEnabled(true);
+				UsersView.getInstance().getUserRecommendations().refresh();
 			}
 		});
 

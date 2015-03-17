@@ -3,12 +3,15 @@ package iul.iscte.tsio.view.search;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import iul.iscte.tsio.controller.UsersController;
+import iul.iscte.tsio.model.ProgramDAOImpl;
 import iul.iscte.tsio.model.ProgramEntity;
 import iul.iscte.tsio.utils.Labels;
 import iul.iscte.tsio.view.program.ProgramDetailsView;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -56,8 +59,12 @@ public class SearchResultView extends JDialog {
 
 		add(aux, BorderLayout.SOUTH);
 		
-		// TODO falta ir buscar os dados. saber qual é o metodo
-		results = new JList<ProgramEntity>();
+		List<ProgramEntity> list = ProgramDAOImpl.getInstance().getProgramsWithRegex(text);
+		DefaultListModel<ProgramEntity> listModel = new DefaultListModel<ProgramEntity>();
+		for (ProgramEntity programEntity : list) {
+			listModel.addElement(programEntity);
+		}
+		results = new JList<ProgramEntity>(listModel);
 		scrollPane = new JScrollPane(results);
 		add(scrollPane, BorderLayout.CENTER);
 

@@ -15,7 +15,9 @@ public enum Labels {
 	CLOSE("Close"), 
 	WATCH("Watch"), 
 	LIKE("Like"), 
-	UNLIKE("UnLike");
+	UNLIKE("UnLike"), 
+	RECOMMENDATIONS("Recommendations"), 
+	MYFRIENDS("My Friends");
 
 	private final String value;
 

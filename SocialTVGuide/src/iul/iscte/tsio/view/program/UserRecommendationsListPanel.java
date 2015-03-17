@@ -15,6 +15,7 @@ import iul.iscte.tsio.utils.Labels;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -35,6 +36,7 @@ public class UserRecommendationsListPanel extends JPanel implements Refreshable{
 		this.loggedUser = loggedUser;
 		setLayout(new BorderLayout());
 		setBorder(new EmptyBorder(5, 5, 5, 5) );
+		add(new JLabel(Labels.RECOMMENDATIONS.getValue()), BorderLayout.NORTH);
 		add(moreDetails = new JButton(Labels.PROGRAMMOREDETAILS.getValue()), BorderLayout.SOUTH);
 		
 		listModel = new DefaultListModel<ProgramEntity>();

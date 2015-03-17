@@ -284,8 +284,7 @@ public class ProgramDAOImpl implements ProgramDAO {
 		String query = "MATCH (n:User), (m:Program) WHERE id(n)="
 				+ user.getNodeId() + " AND id(m)=" + program.getNodeId()
 				+ " MERGE (n)-[r:Watched]->(m) Return r";
-		Iterable<Node> relationship = (Iterable<Node>) Collections
-				.emptyIterator();
+		Iterable<Node> relationship = Collections.emptyList();
 		try {
 			relationship = cypherQueryEngine.query(query, null).to(Node.class);
 		} catch (Exception e) {
@@ -301,12 +300,12 @@ public class ProgramDAOImpl implements ProgramDAO {
 	@Override
 	public boolean deleteWatchedRelationship(UserEntity user,
 			ProgramEntity program) {
-		//Use Optional Match for situations where he liked the show
+		// Use Optional Match for situations where he liked the show
 		String query = "MATCH (n:User)-[r:Watched]->(m:Program) WHERE id(n)="
 				+ user.getNodeId() + "AND id(m) = " + program.getNodeId()
 				+ "Delete r Return r";
-		Iterable<Node> relationship = (Iterable<Node>) Collections
-				.emptyIterator();
+		Iterable<Node> relationship = Collections.emptyList();
+
 		try {
 			relationship = cypherQueryEngine.query(query, null).to(Node.class);
 		} catch (Exception e) {
@@ -412,8 +411,7 @@ public class ProgramDAOImpl implements ProgramDAO {
 		String query = "MATCH (n:User), (m:Program) WHERE id(n)="
 				+ user.getNodeId() + " AND id(m)=" + program.getNodeId()
 				+ " MERGE (n)-[r:Liked]->(m) Return r";
-		Iterable<Node> relationship = (Iterable<Node>) Collections
-				.emptyIterator();
+		Iterable<Node> relationship = Collections.emptyList();
 		try {
 			relationship = cypherQueryEngine.query(query, null).to(Node.class);
 		} catch (Exception e) {
@@ -432,8 +430,7 @@ public class ProgramDAOImpl implements ProgramDAO {
 		String query = "START n=node(" + user.getNodeId()
 				+ ") MATCH (n:User)-[r:Liked]->(m:Program) WHERE id(m)="
 				+ program.getNodeId() + " Delete r";
-		Iterable<Node> relationship = (Iterable<Node>) Collections
-				.emptyIterator();
+		Iterable<Node> relationship = Collections.emptyList();
 		try {
 			relationship = cypherQueryEngine.query(query, null).to(Node.class);
 		} catch (Exception e) {
@@ -481,19 +478,19 @@ public class ProgramDAOImpl implements ProgramDAO {
 		while (!programs.iterator().hasNext()) {
 			Node auxNode = programs.iterator().next();
 			if (auxNode.getProperty("type").toString().compareTo("Movie") == 0) {
-				auxList.add(new ProgramEntity(auxNode.getId(), auxNode.getProperty(
-						"title").toString(), auxNode.getProperty("type")
-						.toString(), Integer.parseInt(auxNode.getProperty(
-						"runtime").toString()), auxNode.getProperty(
-						"description").toString()));
+				auxList.add(new ProgramEntity(auxNode.getId(), auxNode
+						.getProperty("title").toString(), auxNode.getProperty(
+						"type").toString(), Integer.parseInt(auxNode
+						.getProperty("runtime").toString()), auxNode
+						.getProperty("description").toString()));
 			} else {
-				auxList.add(new ProgramEntity(auxNode.getId(), auxNode.getProperty(
-						"title").toString(), auxNode.getProperty("type")
-						.toString(), Integer.parseInt(auxNode.getProperty(
-						"runtime").toString()), auxNode.getProperty(
-						"description").toString(), Integer.parseInt(auxNode
-						.getProperty("season").toString()), Integer
-						.parseInt(auxNode.getProperty("episodeNumber")
+				auxList.add(new ProgramEntity(auxNode.getId(), auxNode
+						.getProperty("title").toString(), auxNode.getProperty(
+						"type").toString(), Integer.parseInt(auxNode
+						.getProperty("runtime").toString()), auxNode
+						.getProperty("description").toString(), Integer
+						.parseInt(auxNode.getProperty("season").toString()),
+						Integer.parseInt(auxNode.getProperty("episodeNumber")
 								.toString())));
 			}
 		}
@@ -503,7 +500,8 @@ public class ProgramDAOImpl implements ProgramDAO {
 	@Override
 	public List<ProgramEntity> getAllRecommendProgramsForUser(UserEntity user) {
 		String query = "Match (u1:User)<-[:Friend]->(u2:User)-[:Liked]->(p:Program) WHERE id(u1)="
-				+ user.getNodeId() + " AND NOT ((u1)-[:Watched]->(p)) return p;";
+				+ user.getNodeId()
+				+ " AND NOT ((u1)-[:Watched]->(p)) return p;";
 		Iterable<Node> programs = Collections.emptyList();
 		try {
 			programs = cypherQueryEngine.query(query, null).to(Node.class);

@@ -14,6 +14,7 @@ import iul.iscte.tsio.utils.Labels;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -40,6 +41,7 @@ public class UserFriendsListPanel extends JPanel implements Refreshable{
 		aux.add(addFriend = new JButton(Labels.ADDFRIENDBUTTON.getValue()));
 		aux.add(deleteFriend = new JButton(Labels.DELETEFRIENDBUTTON.getValue()));
 		add(aux, BorderLayout.SOUTH);
+		add(new JLabel(Labels.MYFRIENDS.getValue()), BorderLayout.NORTH);
 
 
 		listModel = new DefaultListModel<UserEntity>();

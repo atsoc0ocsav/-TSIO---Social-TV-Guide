@@ -46,8 +46,9 @@ public class UserDAOImpl implements UserDAO {
 			System.err.print("Something went wrong, please call techSupport");
 			e.printStackTrace(); 	
 		}
-		if (user.iterator().hasNext()) {
-			Node aux = user.iterator().next();
+		Iterator<Node> userIterator = user.iterator();
+		if (userIterator.hasNext()) {
+			Node aux = userIterator.next();
 			return new UserEntity(aux.getId(), aux.getProperty("username")
 					.toString(), aux.getProperty("email").toString());
 		}
@@ -101,8 +102,9 @@ public class UserDAOImpl implements UserDAO {
 			System.err.print("Something went wrong, please call techSupport");
 			e.printStackTrace(); 	
 		}
-		if (user.iterator().hasNext()) {
-			Node aux = user.iterator().next();
+		Iterator<Node> userIterator = user.iterator();
+		if (userIterator.hasNext()) {
+			Node aux = userIterator.next();
 			if (aux.getProperty("username").toString().compareTo(userToUpdate.getUsername())==0 && aux.getProperty("email").toString().compareTo(userToUpdate.getUsername())==0)
 				return true;
 		}
@@ -120,8 +122,9 @@ public class UserDAOImpl implements UserDAO {
 			System.err.print("Something went wrong, please call techSupport");
 			e.printStackTrace(); 	
 		}
-		if (!user.iterator().hasNext()) {
-			Node aux = user.iterator().next();
+		Iterator<Node> userIterator = user.iterator();
+		if (userIterator.hasNext()) {
+			Node aux = userIterator.next();
 			return new UserEntity(aux.getId(), aux.getProperty("username")
 					.toString(), aux.getProperty("email").toString());
 		}
@@ -139,8 +142,9 @@ public class UserDAOImpl implements UserDAO {
 			e.printStackTrace(); 	
 		}
 		List<UserEntity> auxList = new ArrayList<UserEntity>();
-		while (!users.iterator().hasNext()) {
-			Node auxNode = users.iterator().next();
+		Iterator<Node> userIterator = users.iterator();
+		while (userIterator.hasNext()) {
+			Node auxNode = userIterator.next();
 			auxList.add(new UserEntity(auxNode.getId(), auxNode.getProperty(
 					"username").toString(), auxNode.getProperty("email")
 					.toString()));
@@ -236,8 +240,9 @@ public class UserDAOImpl implements UserDAO {
 			e.printStackTrace(); 	
 		}
 		List<UserEntity> auxList = new ArrayList<UserEntity>();
-		while (!users.iterator().hasNext()) {
-			Node auxNode = users.iterator().next();
+		Iterator<Node> userIterator = users.iterator();
+		while (userIterator.hasNext()) {
+			Node auxNode = userIterator.next();
 			auxList.add(new UserEntity(auxNode.getId(), auxNode.getProperty(
 					"username").toString(), auxNode.getProperty("email")
 					.toString()));

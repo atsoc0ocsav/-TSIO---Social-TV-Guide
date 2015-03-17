@@ -47,8 +47,9 @@ public class ProgramDAOImpl implements ProgramDAO {
 			e.printStackTrace();
 		}
 		ProgramEntity aux = null;
-		if (program.iterator().hasNext()) {
-			Node auxNode = program.iterator().next();
+		Iterator<Node> programIterator = program.iterator();
+		if (programIterator.hasNext()) {
+			Node auxNode = programIterator.next();
 			if (auxNode.getProperty("type").toString().compareTo("Movie") == 0) {
 				aux = new ProgramEntity(auxNode.getId(), auxNode.getProperty(
 						"title").toString(), auxNode.getProperty("type")
@@ -62,7 +63,7 @@ public class ProgramDAOImpl implements ProgramDAO {
 						"runtime").toString()), auxNode.getProperty(
 						"description").toString(), Integer.parseInt(auxNode
 						.getProperty("season").toString()),
-						Integer.parseInt(auxNode.getProperty("episodeNumber")
+						Integer.parseInt(auxNode.getProperty("episode")
 								.toString()));
 			}
 		}
@@ -147,8 +148,9 @@ public class ProgramDAOImpl implements ProgramDAO {
 			e.printStackTrace();
 			return false;
 		}
-		if (program.iterator().hasNext()) {
-			Node aux = program.iterator().next();
+		Iterator<Node> programIterator = program.iterator();
+		if (programIterator.hasNext()) {
+			Node aux = programIterator.next();
 			if (aux.getProperty("type").toString().compareTo("Movie") == 0) {
 				if (aux.getProperty("title").toString()
 						.compareTo(programToUpdate.getTitle()) == 0
@@ -187,8 +189,9 @@ public class ProgramDAOImpl implements ProgramDAO {
 			e.printStackTrace();
 		}
 		List<ProgramEntity> auxList = new ArrayList<ProgramEntity>();
-		while (!programs.iterator().hasNext()) {
-			Node auxNode = programs.iterator().next();
+		Iterator<Node> programIterator = programs.iterator();
+		while (programIterator.hasNext()) {
+			Node auxNode = programIterator.next();
 			if (auxNode.getProperty("type").toString().compareTo("Movie") == 0) {
 				auxList.add(new ProgramEntity(auxNode.getId(), auxNode
 						.getProperty("title").toString(), auxNode.getProperty(
@@ -202,7 +205,7 @@ public class ProgramDAOImpl implements ProgramDAO {
 						.getProperty("runtime").toString()), auxNode
 						.getProperty("description").toString(), Integer
 						.parseInt(auxNode.getProperty("season").toString()),
-						Integer.parseInt(auxNode.getProperty("episodeNumber")
+						Integer.parseInt(auxNode.getProperty("episode")
 								.toString())));
 			}
 		}
@@ -221,8 +224,9 @@ public class ProgramDAOImpl implements ProgramDAO {
 			e.printStackTrace();
 		}
 		ArrayList<ProgramEntity> aux = new ArrayList<ProgramEntity>();
-		if (programs.iterator().hasNext()) {
-			Node auxNode = programs.iterator().next();
+		Iterator<Node> programIterator = programs.iterator();
+		if (programIterator.hasNext()) {
+			Node auxNode = programIterator.next();
 			if (auxNode.getProperty("type").toString().compareTo("Movie") == 0) {
 				aux.add(new ProgramEntity(auxNode.getId(), auxNode.getProperty(
 						"title").toString(), auxNode.getProperty("type")
@@ -236,7 +240,7 @@ public class ProgramDAOImpl implements ProgramDAO {
 						"runtime").toString()), auxNode.getProperty(
 						"description").toString(), Integer.parseInt(auxNode
 						.getProperty("season").toString()), Integer
-						.parseInt(auxNode.getProperty("episodeNumber")
+						.parseInt(auxNode.getProperty("episode")
 								.toString())));
 			}
 		}
@@ -349,8 +353,9 @@ public class ProgramDAOImpl implements ProgramDAO {
 			e.printStackTrace();
 		}
 		ArrayList<ProgramEntity> aux = new ArrayList<ProgramEntity>();
-		if (programs.iterator().hasNext()) {
-			Node auxNode = programs.iterator().next();
+		Iterator<Node> programIterator = programs.iterator();
+		if (programIterator.hasNext()) {
+			Node auxNode = programIterator.next();
 			if (auxNode.getProperty("type").toString().compareTo("Movie") == 0) {
 				aux.add(new ProgramEntity(auxNode.getId(), auxNode.getProperty(
 						"title").toString(), auxNode.getProperty("type")
@@ -364,7 +369,7 @@ public class ProgramDAOImpl implements ProgramDAO {
 						"runtime").toString()), auxNode.getProperty(
 						"description").toString(), Integer.parseInt(auxNode
 						.getProperty("season").toString()), Integer
-						.parseInt(auxNode.getProperty("episodeNumber")
+						.parseInt(auxNode.getProperty("episode")
 								.toString())));
 			}
 		}
@@ -383,8 +388,9 @@ public class ProgramDAOImpl implements ProgramDAO {
 			e.printStackTrace();
 		}
 		ArrayList<ProgramEntity> aux = new ArrayList<ProgramEntity>();
-		if (programs.iterator().hasNext()) {
-			Node auxNode = programs.iterator().next();
+		Iterator<Node> programIterator = programs.iterator();
+		if (programIterator.hasNext()) {
+			Node auxNode = programIterator.next();
 			if (auxNode.getProperty("type").toString().compareTo("Movie") == 0) {
 				aux.add(new ProgramEntity(auxNode.getId(), auxNode.getProperty(
 						"title").toString(), auxNode.getProperty("type")
@@ -398,7 +404,7 @@ public class ProgramDAOImpl implements ProgramDAO {
 						"runtime").toString()), auxNode.getProperty(
 						"description").toString(), Integer.parseInt(auxNode
 						.getProperty("season").toString()), Integer
-						.parseInt(auxNode.getProperty("episodeNumber")
+						.parseInt(auxNode.getProperty("episode")
 								.toString())));
 			}
 		}
@@ -464,9 +470,8 @@ public class ProgramDAOImpl implements ProgramDAO {
 
 	@Override
 	public List<ProgramEntity> getProgramsWithRegex(String title) {
-		String query = "Match (p:Program) Where p.title=~'" + title
+		String query = "Match (p:Program) Where p.title=~'(?i)" + title
 				+ ".*' return p;";
-		System.out.println(query);
 		Iterable<Node> programs = Collections.emptyList();
 		try {
 			programs = cypherQueryEngine.query(query, null).to(Node.class);
@@ -475,8 +480,9 @@ public class ProgramDAOImpl implements ProgramDAO {
 			e.printStackTrace();
 		}
 		List<ProgramEntity> auxList = new ArrayList<ProgramEntity>();
-		while (!programs.iterator().hasNext()) {
-			Node auxNode = programs.iterator().next();
+		Iterator<Node> programIterator = programs.iterator();
+		while (programIterator.hasNext()) {
+			Node auxNode = programIterator.next();
 			if (auxNode.getProperty("type").toString().compareTo("Movie") == 0) {
 				auxList.add(new ProgramEntity(auxNode.getId(), auxNode
 						.getProperty("title").toString(), auxNode.getProperty(
@@ -490,7 +496,7 @@ public class ProgramDAOImpl implements ProgramDAO {
 						.getProperty("runtime").toString()), auxNode
 						.getProperty("description").toString(), Integer
 						.parseInt(auxNode.getProperty("season").toString()),
-						Integer.parseInt(auxNode.getProperty("episodeNumber")
+						Integer.parseInt(auxNode.getProperty("episode")
 								.toString())));
 			}
 		}

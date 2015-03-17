@@ -503,7 +503,7 @@ public class ProgramDAOImpl implements ProgramDAO {
 	@Override
 	public List<ProgramEntity> getAllRecommendProgramsForUser(UserEntity user) {
 		String query = "Match (u1:User)<-[:Friend]->(u2:User)-[:Liked]->(p:Program) WHERE id(u1)="
-				+ user.getNodeId() + "AND NOT (u1)-[:Watched]->(p) return p;";
+				+ user.getNodeId() + " AND NOT ((u1)-[:Watched]->(p)) return p;";
 		Iterable<Node> programs = Collections.emptyList();
 		try {
 			programs = cypherQueryEngine.query(query, null).to(Node.class);

@@ -464,7 +464,7 @@ public class ProgramDAOImpl implements ProgramDAO {
 
 	@Override
 	public List<ProgramEntity> getProgramsWithRegex(String title) {
-		String query = "Match (p:Program) Where n.title=~'" + title
+		String query = "Match (p:Program) Where p.title=~'" + title
 				+ ".*' return p;";
 		System.out.println(query);
 		Iterable<Node> programs = Collections.emptyList();

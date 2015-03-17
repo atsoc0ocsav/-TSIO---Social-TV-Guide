@@ -1,5 +1,11 @@
 package iul.iscte.tsio.controller;
 
+import java.util.List;
+
+import javax.jws.soap.SOAPBinding.Use;
+
+import iul.iscte.tsio.model.ProgramDAOImpl;
+import iul.iscte.tsio.model.ProgramEntity;
 import iul.iscte.tsio.model.UserDAOImpl;
 import iul.iscte.tsio.model.UserEntity;
 
@@ -27,8 +33,8 @@ public class UsersController {
 		}
 		return false;
 	}
-	
-	public UserEntity getLoggedUser(){
+
+	public UserEntity getLoggedUser() {
 		return loggedUser;
 	}
 
@@ -51,12 +57,30 @@ public class UsersController {
 	public boolean deleteUser(UserEntity userToDelete) {
 		return UserDAOImpl.getInstance().deleteUser(userToDelete);
 	};
-	
-	public boolean createFriendship(UserEntity user, UserEntity friend){
-		return UserDAOImpl.getInstance().createFriendshipRelationship(user, friend);
+
+	public boolean createFriendship(UserEntity user, UserEntity friend) {
+		return UserDAOImpl.getInstance().createFriendshipRelationship(user,
+				friend);
 	}
-	
-	public boolean deleteFriendship(UserEntity user, UserEntity friend){
-		return UserDAOImpl.getInstance().deleteFriendshipRelationship(user, friend);
+
+	public boolean deleteFriendship(UserEntity user, UserEntity friend) {
+		return UserDAOImpl.getInstance().deleteFriendshipRelationship(user,
+				friend);
 	}
+
+	public List<UserEntity> getAllUsers() {
+		return UserDAOImpl.getInstance().getAllUsers();
+	}
+
+	public boolean isUserFriend(UserEntity user, UserEntity friend) {
+		return UserDAOImpl.getInstance().isUserFriend(user, friend);
+	}
+
+	public List<UserEntity> getAllFriends(UserEntity user) {
+		return UserDAOImpl.getInstance().getAllFriends(user);
+	}
+
+	public List<UserEntity> getUsersWithRegex(String title) {
+		return UserDAOImpl.getInstance().getUsersWithRegex(title);
+	};
 }

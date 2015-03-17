@@ -4,6 +4,7 @@ import iul.iscte.tsio.interfaces.ProgramDAO;
 import iul.iscte.tsio.server.Server;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class ProgramDAOImpl implements ProgramDAO {
 	public ProgramEntity getProgramByTitle(String title) {
 		String query = "Match (n:Program) WHERE n.title=\"" + title
 				+ "\" return n;";
-		Iterable<Node> program = null;
+		Iterable<Node> program = (Iterable<Node>) Collections.emptyIterator();
 		try {
 			program = cypherQueryEngine.query(query, null).to(Node.class);
 		} catch (Exception e) {
@@ -86,7 +87,7 @@ public class ProgramDAOImpl implements ProgramDAO {
 					+ "\", episode:\"" + programToInsert.getEpisodeNumber()
 					+ "\"}) Return p;";
 		}
-		Iterable<Node> program = null;
+		Iterable<Node> program = (Iterable<Node>) Collections.emptyIterator();
 		try {
 			program = cypherQueryEngine.query(query, null).to(Node.class);
 		} catch (Exception e) {
@@ -103,7 +104,7 @@ public class ProgramDAOImpl implements ProgramDAO {
 	public boolean deleteProgram(ProgramEntity programToDelete) {
 		String query = "Match (p:Program) Where id(p)="
 				+ programToDelete.getNodeId() + " Delete p Return p;";
-		Iterable<Node> program = null;
+		Iterable<Node> program = (Iterable<Node>) Collections.emptyIterator();
 		try {
 			program = cypherQueryEngine.query(query, null).to(Node.class);
 		} catch (Exception e) {
@@ -138,7 +139,7 @@ public class ProgramDAOImpl implements ProgramDAO {
 					+ programToUpdate.getEpisodeNumber() + "\" Return p;";
 		}
 
-		Iterable<Node> program = null;
+		Iterable<Node> program = (Iterable<Node>) Collections.emptyIterator();
 		try {
 			program = cypherQueryEngine.query(query, null).to(Node.class);
 		} catch (Exception e) {
@@ -178,7 +179,7 @@ public class ProgramDAOImpl implements ProgramDAO {
 	@Override
 	public List<ProgramEntity> getAllPrograms() {
 		String query = "Match (n:Program) return n;";
-		Iterable<Node> programs = null;
+		Iterable<Node> programs = (Iterable<Node>) Collections.emptyIterator();
 		try {
 			programs = cypherQueryEngine.query(query, null).to(Node.class);
 		} catch (Exception e) {
@@ -212,7 +213,7 @@ public class ProgramDAOImpl implements ProgramDAO {
 	public List<ProgramEntity> getAllLikedProgramsByUser(UserEntity user) {
 		String query = "Match (u:User)-[:Liked]->(p:Program) WHERE id(u)="
 				+ user.getNodeId() + " return p;";
-		Iterable<Node> programs = null;
+		Iterable<Node> programs = (Iterable<Node>) Collections.emptyIterator();
 		try {
 			programs = cypherQueryEngine.query(query, null).to(Node.class);
 		} catch (Exception e) {
@@ -246,7 +247,7 @@ public class ProgramDAOImpl implements ProgramDAO {
 	public List<ProgramEntity> getAllLikedProgramsByFriends(UserEntity user) {
 		String query = "Match (u1:User)<-[:Friend]->(u2:User)-[:Liked]->(p:Program) WHERE id(u1)="
 				+ user.getNodeId() + " return p;";
-		Iterable<Node> programs = null;
+		Iterable<Node> programs = (Iterable<Node>) Collections.emptyIterator();
 		try {
 			programs = cypherQueryEngine.query(query, null).to(Node.class);
 		} catch (Exception e) {
@@ -271,8 +272,7 @@ public class ProgramDAOImpl implements ProgramDAO {
 						"runtime").toString()), auxNode.getProperty(
 						"description").toString(), Integer.parseInt(auxNode
 						.getProperty("season").toString()), Integer
-						.parseInt(auxNode.getProperty("episode")
-								.toString())));
+						.parseInt(auxNode.getProperty("episode").toString())));
 			}
 		}
 		return aux;
@@ -284,7 +284,8 @@ public class ProgramDAOImpl implements ProgramDAO {
 		String query = "MATCH (n:User), (m:Program) WHERE id(n)="
 				+ user.getNodeId() + " AND id(m)=" + program.getNodeId()
 				+ " MERGE (n)-[r:Watched]->(m) Return r";
-		Iterable<Node> relationship = null;
+		Iterable<Node> relationship = (Iterable<Node>) Collections
+				.emptyIterator();
 		try {
 			relationship = cypherQueryEngine.query(query, null).to(Node.class);
 		} catch (Exception e) {
@@ -300,10 +301,12 @@ public class ProgramDAOImpl implements ProgramDAO {
 	@Override
 	public boolean deleteWatchedRelationship(UserEntity user,
 			ProgramEntity program) {
+		//Use Optional Match for situations where he liked the show
 		String query = "MATCH (n:User)-[r:Watched]->(m:Program) WHERE id(n)="
 				+ user.getNodeId() + "AND id(m) = " + program.getNodeId()
 				+ "Delete r Return r";
-		Iterable<Node> relationship = null;
+		Iterable<Node> relationship = (Iterable<Node>) Collections
+				.emptyIterator();
 		try {
 			relationship = cypherQueryEngine.query(query, null).to(Node.class);
 		} catch (Exception e) {
@@ -339,12 +342,12 @@ public class ProgramDAOImpl implements ProgramDAO {
 	public List<ProgramEntity> getAllWatchedProgramsByUser(UserEntity user) {
 		String query = "Match (u:User)-[:Watched]->(p:Program) WHERE id(u)="
 				+ user.getNodeId() + " return p;";
-		Iterable<Node> programs = null;
+		Iterable<Node> programs = (Iterable<Node>) Collections.emptyIterator();
 		try {
 			programs = cypherQueryEngine.query(query, null).to(Node.class);
 		} catch (Exception e) {
 			System.err.print("Something went wrong, please call techSupport");
-			e.printStackTrace(); 	
+			e.printStackTrace();
 		}
 		ArrayList<ProgramEntity> aux = new ArrayList<ProgramEntity>();
 		if (programs.iterator().hasNext()) {
@@ -373,12 +376,12 @@ public class ProgramDAOImpl implements ProgramDAO {
 	public List<ProgramEntity> getAllWatchedProgramsByFriends(UserEntity user) {
 		String query = "Match (u1:User)<-[:Friend]->(u2:User)-[:Watched]->(p:Program) WHERE id(u1)="
 				+ user.getNodeId() + " return p;";
-		Iterable<Node> programs = null;
+		Iterable<Node> programs = (Iterable<Node>) Collections.emptyIterator();
 		try {
 			programs = cypherQueryEngine.query(query, null).to(Node.class);
 		} catch (Exception e) {
 			System.err.print("Something went wrong, please call techSupport");
-			e.printStackTrace(); 	
+			e.printStackTrace();
 		}
 		ArrayList<ProgramEntity> aux = new ArrayList<ProgramEntity>();
 		if (programs.iterator().hasNext()) {
@@ -409,12 +412,13 @@ public class ProgramDAOImpl implements ProgramDAO {
 		String query = "MATCH (n:User), (m:Program) WHERE id(n)="
 				+ user.getNodeId() + " AND id(m)=" + program.getNodeId()
 				+ " MERGE (n)-[r:Liked]->(m) Return r";
-		Iterable<Node> relationship = null;
+		Iterable<Node> relationship = (Iterable<Node>) Collections
+				.emptyIterator();
 		try {
 			relationship = cypherQueryEngine.query(query, null).to(Node.class);
 		} catch (Exception e) {
 			System.err.print("Something went wrong, please call techSupport");
-			e.printStackTrace(); 	
+			e.printStackTrace();
 		}
 		if (relationship.iterator().hasNext()) {
 			return true;
@@ -425,14 +429,16 @@ public class ProgramDAOImpl implements ProgramDAO {
 	@Override
 	public boolean deleteLikedRelationship(UserEntity user,
 			ProgramEntity program) {
-		String query = "START n=node(" + user.getNodeId() +") MATCH (n:User)-[r:Liked]->(m:Program) WHERE id(m)=" + program.getNodeId()
-				+ " Delete r";
-		Iterable<Node> relationship = null;
+		String query = "START n=node(" + user.getNodeId()
+				+ ") MATCH (n:User)-[r:Liked]->(m:Program) WHERE id(m)="
+				+ program.getNodeId() + " Delete r";
+		Iterable<Node> relationship = (Iterable<Node>) Collections
+				.emptyIterator();
 		try {
 			relationship = cypherQueryEngine.query(query, null).to(Node.class);
 		} catch (Exception e) {
 			System.err.print("Something went wrong, please call techSupport");
-			e.printStackTrace(); 	
+			e.printStackTrace();
 		}
 		if (!relationship.iterator().hasNext()) {
 			return true;
@@ -450,13 +456,47 @@ public class ProgramDAOImpl implements ProgramDAO {
 			count = cypherQueryEngine.query(query, null).to(Integer.class);
 		} catch (Exception e) {
 			System.err.print("Something went wrong, please call techSupport");
-			e.printStackTrace(); 	
+			e.printStackTrace();
 		}
-		
+
 		int auxCount = count.iterator().next();
 		if (auxCount != 0)
 			return true;
 		return false;
 	}
 
+	@Override
+	public List<ProgramEntity> getProgramsWithRegex(String title) {
+		String query = "Match (n:Program) Where n.name=~'" + title
+				+ ".*' return n;";
+		System.out.println(query);
+		Iterable<Node> programs = (Iterable<Node>) Collections.emptyIterator();
+		try {
+			programs = cypherQueryEngine.query(query, null).to(Node.class);
+		} catch (Exception e) {
+			System.err.print("Something went wrong, please call techSupport");
+			e.printStackTrace();
+		}
+		List<ProgramEntity> auxList = new ArrayList<ProgramEntity>();
+		while (!programs.iterator().hasNext()) {
+			Node auxNode = programs.iterator().next();
+			if (auxNode.getProperty("type").toString().compareTo("Movie") == 0) {
+				auxList.add(new ProgramEntity(auxNode.getId(), auxNode.getProperty(
+						"title").toString(), auxNode.getProperty("type")
+						.toString(), Integer.parseInt(auxNode.getProperty(
+						"runtime").toString()), auxNode.getProperty(
+						"description").toString()));
+			} else {
+				auxList.add(new ProgramEntity(auxNode.getId(), auxNode.getProperty(
+						"title").toString(), auxNode.getProperty("type")
+						.toString(), Integer.parseInt(auxNode.getProperty(
+						"runtime").toString()), auxNode.getProperty(
+						"description").toString(), Integer.parseInt(auxNode
+						.getProperty("season").toString()), Integer
+						.parseInt(auxNode.getProperty("episodeNumber")
+								.toString())));
+			}
+		}
+		return auxList;
+	}
 }

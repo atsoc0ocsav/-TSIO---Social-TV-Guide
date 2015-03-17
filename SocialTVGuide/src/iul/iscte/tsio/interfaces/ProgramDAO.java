@@ -21,4 +21,5 @@ public interface ProgramDAO {
 	public boolean hasUserWatchedProgram(UserEntity user, ProgramEntity program);
 	public List<ProgramEntity> getAllWatchedProgramsByUser(UserEntity user);
 	public List<ProgramEntity> getAllWatchedProgramsByFriends(UserEntity user);
+	public List<ProgramEntity> getProgramsWithRegex(String title);
 }

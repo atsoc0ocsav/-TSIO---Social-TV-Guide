@@ -1,17 +1,14 @@
 package iul.iscte.tsio.view.panels;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.util.List;
-import java.util.Vector;
 
+import iul.iscte.tsio.controller.UsersController;
 import iul.iscte.tsio.interfaces.Refreshable;
-import iul.iscte.tsio.model.UserDAOImpl;
 import iul.iscte.tsio.model.UserEntity;
 import iul.iscte.tsio.utils.Labels;
 
-import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -55,7 +52,7 @@ public class UserFriendsListPanel extends JPanel implements Refreshable{
 	@Override
 	public void refresh() {
 		listModel.clear();
-		List<UserEntity> data = UserDAOImpl.getInstance().getAllFriends(loggedUser);
+		List<UserEntity> data = UsersController.getInstance().getAllFriends(loggedUser);
 		for (UserEntity userEntity : data) {
 			listModel.addElement(userEntity);
 		}

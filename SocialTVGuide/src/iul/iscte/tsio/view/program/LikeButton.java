@@ -3,6 +3,7 @@ package iul.iscte.tsio.view.program;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import iul.iscte.tsio.controller.ProgramsController;
 import iul.iscte.tsio.model.ProgramDAOImpl;
 import iul.iscte.tsio.model.ProgramEntity;
 import iul.iscte.tsio.model.UserEntity;
@@ -23,7 +24,7 @@ public class LikeButton extends JButton {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
-			ProgramDAOImpl.getInstance().createLikedRelationship(loggedUser, program);
+			ProgramsController.getInstance().likeShow(loggedUser, program);
 
 			removeActionListener(this);
 			addActionListener(unLikeProgram);
@@ -36,7 +37,7 @@ public class LikeButton extends JButton {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
-			ProgramDAOImpl.getInstance().deleteLikedRelationship(loggedUser, program);
+			ProgramsController.getInstance().unlikeProgram(loggedUser, program);
 
 			removeActionListener(this);
 			addActionListener(likeProgram);

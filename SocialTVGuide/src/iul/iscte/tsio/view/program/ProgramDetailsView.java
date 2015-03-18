@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import iul.iscte.tsio.controller.ProgramsController;
 import iul.iscte.tsio.model.ProgramDAOImpl;
 import iul.iscte.tsio.model.ProgramEntity;
 import iul.iscte.tsio.model.UserEntity;
@@ -41,7 +42,7 @@ public class ProgramDetailsView extends JDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ProgramDAOImpl.getInstance().createWatchedRelationship(loggedUser, program);
+				ProgramsController.getInstance().watchShow(loggedUser, program);
 				watch.setEnabled(false);
 				like.setEnabled(true);
 				UsersView.getInstance().getUserRecommendations().refresh();

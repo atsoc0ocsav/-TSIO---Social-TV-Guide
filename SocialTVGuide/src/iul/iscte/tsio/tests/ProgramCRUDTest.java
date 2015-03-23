@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import iul.iscte.tsio.controller.ProgramsController;
 import iul.iscte.tsio.controller.UsersController;
 import iul.iscte.tsio.model.ProgramEntity;
+import iul.iscte.tsio.model.UserDAOImpl;
 import iul.iscte.tsio.model.UserEntity;
 import iul.iscte.tsio.server.Server;
 
@@ -17,18 +18,18 @@ public class ProgramCRUDTest {
 	static UserEntity user;
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		Server.getInstance().login("http://localhost:7474/db/data/");
-		UsersController.getInstance().login("techsupport@lemonparty.com");
+		Server.getInstance().login("http://localhost:7474/db/data/");	
+		Server.getInstance().setLoggedUser("techsupport@lemonparty.com");
 		movie = new ProgramEntity("Title1", "Movie", 100, "Description1");
 		program = new ProgramEntity("Title2", "TVShow", 30, "Description2", 1 , 1);
-		user = UsersController.getInstance().getLoggedUser();
+		user = Server.getInstance().getLoggedUser();
 	}
 
 	@Test
-	public void testCRUD() {
+	public void testProgramCRUD() {
 		//Create
-		assertTrue(ProgramsController.getInstance().insertProgram(movie));
-		assertTrue(ProgramsController.getInstance().insertProgram(program));
+		movie.setNodeId(ProgramsController.getInstance().insertProgram(movie));
+		program.setNodeId(ProgramsController.getInstance().insertProgram(program));
 		//Read
 		ProgramEntity tempMovie = ProgramsController.getInstance().getProgramByTitle(movie.getTitle());
 		movie.setNodeId(tempMovie.getNodeId());

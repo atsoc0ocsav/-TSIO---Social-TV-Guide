@@ -22,7 +22,7 @@ public class ProgramsController {
 		return instance;
 	};
 
-	public boolean insertProgram(ProgramEntity programToInsert) {
+	public long insertProgram(ProgramEntity programToInsert) {
 		return ProgramDAOImpl.getInstance().insertProgram(programToInsert);
 	};
 

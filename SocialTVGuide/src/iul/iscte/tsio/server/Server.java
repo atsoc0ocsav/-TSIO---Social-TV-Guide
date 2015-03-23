@@ -1,5 +1,8 @@
 package iul.iscte.tsio.server;
 
+import iul.iscte.tsio.model.UserDAOImpl;
+import iul.iscte.tsio.model.UserEntity;
+
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -7,9 +10,11 @@ import com.sun.jersey.api.client.WebResource;
 public class Server {
 	private static String SERVER_ROOT_URI;
 	private static Server instance = null;
+	private UserEntity loggedUser;
 
-	private Server(){}
-	
+	private Server() {
+	}
+
 	public static Server getInstance() {
 		if (instance == null) {
 			synchronized (Server.class) {
@@ -18,12 +23,12 @@ public class Server {
 		}
 		return instance;
 	}
-	
-	public String getServer_ROOT_URI(){
+
+	public String getServer_ROOT_URI() {
 		return SERVER_ROOT_URI;
 	}
-	
-	public void login(String serverAddress){
+
+	public boolean login(String serverAddress) {
 		SERVER_ROOT_URI = serverAddress;
 		Client client = Client.create();
 		WebResource resource = client.resource(SERVER_ROOT_URI);
@@ -34,9 +39,24 @@ public class Server {
 					"Server is unavailable, status code [%d]",
 					response.getStatus()));
 			response.close();
+			return false;
 		} else {
 			System.out.println(String.format("GET on [%s], status code [%d]",
 					SERVER_ROOT_URI, response.getStatus()));
+			return true;
 		}
+	}
+
+	public boolean setLoggedUser(String email) {
+		UserEntity loggedUser = UserDAOImpl.getInstance().getUserByEmail(email);
+		if (loggedUser != null) {
+			this.loggedUser = loggedUser;
+			return true;
+		}
+		return false;
+	}
+
+	public UserEntity getLoggedUser() {
+		return loggedUser;
 	}
 }

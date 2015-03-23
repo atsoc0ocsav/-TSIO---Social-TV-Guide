@@ -14,17 +14,18 @@ public class Main {
 		String serverAddress = scanner.nextLine();
 		scanner.close();
 		// Verify is /db/data is there
-		//serverAddress = serverAddress + "/db/data";
+		// serverAddress = serverAddress + "/db/data";
 		serverAddress = serverAddress.concat("/db/data/");
-
-		Server.getInstance().login(serverAddress);
+		boolean connected = Server.getInstance().login(serverAddress);
+		boolean authenticated = Server.getInstance().setLoggedUser("techsupport@lemonparty.com");
 		// Create GUI
-		boolean authetincated = UsersController.getInstance().login(
-				"email3@email.com");
-		if (authetincated) {
-			UsersView.getInstance().setVisible(true);
-		}
 
-		System.out.println(authetincated);
+		if (authenticated) {
+			UsersView.getInstance().setVisible(true);
+		}else{
+			System.out.println("It was not possible to authenticate user");
+			System.exit(0);
+		}
+		System.out.println(authenticated);
 	}
 }

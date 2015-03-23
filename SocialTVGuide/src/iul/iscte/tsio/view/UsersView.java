@@ -1,15 +1,16 @@
 package iul.iscte.tsio.view;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-
 import iul.iscte.tsio.controller.UsersController;
+import iul.iscte.tsio.server.Server;
 import iul.iscte.tsio.utils.Labels;
 import iul.iscte.tsio.view.panels.BasicActionsPanel;
 import iul.iscte.tsio.view.panels.UserFriendsListPanel;
 import iul.iscte.tsio.view.panels.UserInformationPanel;
 import iul.iscte.tsio.view.program.UserRecommendationsListPanel;
 import iul.iscte.tsio.view.search.SearchPanel;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -38,7 +39,7 @@ public class UsersView extends JFrame {
 		getContentPane().add(searchPanel = new SearchPanel(),
 				BorderLayout.NORTH);
 		
-		getContentPane().add(frendsList = new UserFriendsListPanel(UsersController.getInstance().getLoggedUser()),
+		getContentPane().add(frendsList = new UserFriendsListPanel(Server.getInstance().getLoggedUser()),
 				BorderLayout.EAST);
 		
 		JPanel aux = new JPanel();
@@ -47,11 +48,11 @@ public class UsersView extends JFrame {
                 1, 5, 1, 1, Color.gray));
 		getContentPane().add(aux);
 		
-		aux.add(userInformation = new UserInformationPanel(UsersController.getInstance().getLoggedUser()), BorderLayout.CENTER);
+		aux.add(userInformation = new UserInformationPanel(Server.getInstance().getLoggedUser()), BorderLayout.CENTER);
 		
 		aux.add(basicActions = new BasicActionsPanel(), BorderLayout.SOUTH);
 		//aux.add(userRecommendations = new UserRecommendationsList(UsersController.getInstance().getLoggedUser()));
-		getContentPane().add(userRecommendations = new UserRecommendationsListPanel(UsersController.getInstance().getLoggedUser()),
+		getContentPane().add(userRecommendations = new UserRecommendationsListPanel(Server.getInstance().getLoggedUser()),
 				BorderLayout.SOUTH);
 		
 	}

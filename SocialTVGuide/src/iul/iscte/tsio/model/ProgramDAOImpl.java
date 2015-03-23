@@ -71,14 +71,14 @@ public class ProgramDAOImpl implements ProgramDAO {
 	}
 
 	@Override
-	public boolean insertProgram(ProgramEntity programToInsert) {
+	public long insertProgram(ProgramEntity programToInsert) {
 		String query = "";
 		if (programToInsert.getType() == "Movie") {
 			query = "Create (p:Program {title: \"" + programToInsert.getTitle()
 					+ "\", description: \"" + programToInsert.getDescription()
 					+ "\", type:\"" + programToInsert.getType()
 					+ "\", runtime:\"" + programToInsert.getRuntime()
-					+ "\"}) Return p;";
+					+ "\"}) Return id(p);";
 		} else {
 			query = "Create (p:Program {title: \"" + programToInsert.getTitle()
 					+ "\", description: \"" + programToInsert.getDescription()
@@ -86,16 +86,17 @@ public class ProgramDAOImpl implements ProgramDAO {
 					+ "\", runtime:\"" + programToInsert.getRuntime()
 					+ "\", season:\"" + programToInsert.getSeason()
 					+ "\", episode:\"" + programToInsert.getEpisodeNumber()
-					+ "\"}) Return p;";
+					+ "\"}) Return id(p);";
 		}
+		ConvertedResult<Integer> count = null;
 		try {
-			cypherQueryEngine.query(query, null).to(Node.class);
+			count = cypherQueryEngine.query(query, null).to(Integer.class);
 		} catch (Exception e) {
 			System.err.print("Something went wrong, please call techSupport");
 			e.printStackTrace();
-			return false;
 		}
-			return true;
+		long auxID = count.iterator().next();
+		return auxID;
 	}
 
 	@Override

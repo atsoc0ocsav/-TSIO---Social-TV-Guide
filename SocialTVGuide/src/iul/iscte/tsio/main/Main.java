@@ -14,11 +14,11 @@ public class Main {
 		// String serverAddress = scanner.nextLine();
 		// scanner.close();
 
-		// Get Server IP Address/ Hostname
 		boolean connected = false;
 		boolean authenticated = false;
 
 		while (!connected || !authenticated) {
+			// Get Server IP Address/ Hostname
 			ServerAddressRequestToUserPane addressRequestPane = new ServerAddressRequestToUserPane();
 			String serverAddress = "http://"
 					+ addressRequestPane.getIpAddressAsString() + ":"

@@ -12,6 +12,8 @@ public class Server {
 	private static Server instance = null;
 	private UserEntity loggedUser;
 
+	private boolean connectedToServer = false;
+
 	private Server() {
 	}
 
@@ -39,10 +41,12 @@ public class Server {
 					"Server is unavailable, status code [%d]",
 					response.getStatus()));
 			response.close();
+			connectedToServer = false;
 			return false;
 		} else {
 			System.out.println(String.format("GET on [%s], status code [%d]",
 					SERVER_ROOT_URI, response.getStatus()));
+			connectedToServer = true;
 			return true;
 		}
 	}
@@ -58,5 +62,9 @@ public class Server {
 
 	public UserEntity getLoggedUser() {
 		return loggedUser;
+	}
+
+	public boolean isConnectedToServer() {
+		return connectedToServer;
 	}
 }

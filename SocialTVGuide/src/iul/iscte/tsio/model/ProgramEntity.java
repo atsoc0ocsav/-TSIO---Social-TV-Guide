@@ -110,7 +110,10 @@ public class ProgramEntity {
 	
 	@Override
 	public String toString() {
-		return title +  " - " + type  + " / " + description;
+		return "ProgramEntity [title=" + title + ", type=" + type
+				+ ", runtime=" + runtime + ", description=" + description
+				+ ", season=" + season + ", episodeNumber=" + episodeNumber
+				+ ", nodeId=" + nodeId + "]";
 	}
 
 	@Override

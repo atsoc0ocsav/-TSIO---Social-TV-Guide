@@ -8,7 +8,7 @@ import java.util.List;
 public interface ProgramDAO {
 	public ProgramEntity getProgramByTitle(String title);
 	public boolean updateProgram(ProgramEntity programToUpdate);
-	public boolean insertProgram(ProgramEntity programToInsert);
+	public long insertProgram(ProgramEntity programToInsert);
 	public boolean deleteProgram(ProgramEntity programToDelete);
 	public List<ProgramEntity> getAllPrograms();
 	public boolean createLikedRelationship(UserEntity user, ProgramEntity program);

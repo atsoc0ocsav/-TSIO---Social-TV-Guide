@@ -10,7 +10,6 @@ import iul.iscte.tsio.model.UserDAOImpl;
 import iul.iscte.tsio.model.UserEntity;
 
 public class UsersController {
-	private UserEntity loggedUser;
 	private static UsersController instance = null;
 
 	private UsersController() {
@@ -25,20 +24,7 @@ public class UsersController {
 		return instance;
 	}
 
-	public boolean login(String email) {
-		UserEntity loggedUser = UserDAOImpl.getInstance().getUserByEmail(email);
-		if (loggedUser != null) {
-			this.loggedUser = loggedUser;
-			return true;
-		}
-		return false;
-	}
-
-	public UserEntity getLoggedUser() {
-		return loggedUser;
-	}
-
-	public boolean createUser(UserEntity userToInsert) {
+	public long createUser(UserEntity userToInsert) {
 		return UserDAOImpl.getInstance().insertUser(userToInsert);
 	}
 

@@ -1,6 +1,5 @@
 package iul.iscte.tsio.main;
 
-import iul.iscte.tsio.controller.UsersController;
 import iul.iscte.tsio.server.Server;
 import iul.iscte.tsio.view.UsersView;
 import iul.iscte.tsio.view.inputPanes.ServerAddressRequestToUserPane;
@@ -20,15 +19,18 @@ public class Main {
 				+ addressRequestPane.getPortNumberAsString() + "/db/data/";
 
 		System.out.println("Server: " + serverAddress);
-		Server.getInstance().login(serverAddress);
+		boolean connected = Server.getInstance().login(serverAddress);
+		boolean authenticated = Server.getInstance().setLoggedUser(
+				"techsupport@lemonparty.com");
 
 		// Create GUI
-		boolean authetincated = UsersController.getInstance().login(
-				"email3@email.com");
-		if (authetincated) {
-			UsersView.getInstance().setVisible(true);
-		}
 
-		System.out.println(authetincated);
+		if (authenticated) {
+			UsersView.getInstance().setVisible(true);
+		} else {
+			System.out.println("It was not possible to authenticate user");
+			System.exit(0);
+		}
+		System.out.println(authenticated);
 	}
 }

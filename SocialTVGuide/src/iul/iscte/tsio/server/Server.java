@@ -67,4 +67,12 @@ public class Server {
 	public boolean isConnectedToServer() {
 		return connectedToServer;
 	}
+	
+	public boolean isUserLogged(){
+		return loggedUser != null;
+	}
+	public void unLogUser(){
+		if (loggedUser != null)
+			loggedUser = null;
+	}
 }

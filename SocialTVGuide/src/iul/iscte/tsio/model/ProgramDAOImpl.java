@@ -73,7 +73,7 @@ public class ProgramDAOImpl implements ProgramDAO {
 	@Override
 	public long insertProgram(ProgramEntity programToInsert) {
 		String query = "";
-		if (programToInsert.getType() == "Movie") {
+		if (programToInsert.getType().equals("Movie")) {
 			query = "Create (p:Program {title: \"" + programToInsert.getTitle()
 					+ "\", description: \"" + programToInsert.getDescription()
 					+ "\", type:\"" + programToInsert.getType()
@@ -101,7 +101,7 @@ public class ProgramDAOImpl implements ProgramDAO {
 
 	@Override
 	public boolean deleteProgram(ProgramEntity programToDelete) {
-		String query = "Match (p:Program) Where id(p)="
+		String query = "Match (p:Program) OPTIONAL MATCH ()-[r]-(p) Where id(p)="
 				+ programToDelete.getNodeId() + " Delete p;";
 		try {
 			cypherQueryEngine.query(query, null).to(Node.class);
@@ -145,7 +145,7 @@ public class ProgramDAOImpl implements ProgramDAO {
 		Iterator<Node> programIterator = program.iterator();
 		if (programIterator.hasNext()) {
 			Node aux = programIterator.next();
-			if (aux.getProperty("type").toString().compareTo("Movie") == 0) {
+			if (aux.getProperty("type").equals("Movie")) {
 				if (aux.getProperty("title").toString()
 						.compareTo(programToUpdate.getTitle()) == 0
 						&& aux.getProperty("description").toString()
@@ -186,7 +186,7 @@ public class ProgramDAOImpl implements ProgramDAO {
 		Iterator<Node> programIterator = programs.iterator();
 		while (programIterator.hasNext()) {
 			Node auxNode = programIterator.next();
-			if (auxNode.getProperty("type").toString().compareTo("Movie") == 0) {
+			if (auxNode.getProperty("type").equals("Movie")) {
 				auxList.add(new ProgramEntity(auxNode.getId(), auxNode
 						.getProperty("title").toString(), auxNode.getProperty(
 						"type").toString(), Integer.parseInt(auxNode
@@ -221,7 +221,7 @@ public class ProgramDAOImpl implements ProgramDAO {
 		Iterator<Node> programIterator = programs.iterator();
 		if (programIterator.hasNext()) {
 			Node auxNode = programIterator.next();
-			if (auxNode.getProperty("type").toString().compareTo("Movie") == 0) {
+			if (auxNode.getProperty("type").equals("Movie")) {
 				aux.add(new ProgramEntity(auxNode.getId(), auxNode.getProperty(
 						"title").toString(), auxNode.getProperty("type")
 						.toString(), Integer.parseInt(auxNode.getProperty(
@@ -349,7 +349,7 @@ public class ProgramDAOImpl implements ProgramDAO {
 		Iterator<Node> programIterator = programs.iterator();
 		if (programIterator.hasNext()) {
 			Node auxNode = programIterator.next();
-			if (auxNode.getProperty("type").toString().compareTo("Movie") == 0) {
+			if (auxNode.getProperty("type").equals("Movie")) {
 				aux.add(new ProgramEntity(auxNode.getId(), auxNode.getProperty(
 						"title").toString(), auxNode.getProperty("type")
 						.toString(), Integer.parseInt(auxNode.getProperty(
@@ -383,7 +383,7 @@ public class ProgramDAOImpl implements ProgramDAO {
 		Iterator<Node> programIterator = programs.iterator();
 		if (programIterator.hasNext()) {
 			Node auxNode = programIterator.next();
-			if (auxNode.getProperty("type").toString().compareTo("Movie") == 0) {
+			if (auxNode.getProperty("type").equals("Movie")) {
 				aux.add(new ProgramEntity(auxNode.getId(), auxNode.getProperty(
 						"title").toString(), auxNode.getProperty("type")
 						.toString(), Integer.parseInt(auxNode.getProperty(
@@ -474,7 +474,7 @@ public class ProgramDAOImpl implements ProgramDAO {
 		Iterator<Node> programIterator = programs.iterator();
 		while (programIterator.hasNext()) {
 			Node auxNode = programIterator.next();
-			if (auxNode.getProperty("type").toString().compareTo("Movie") == 0) {
+			if (auxNode.getProperty("type").equals("Movie")) {
 				auxList.add(new ProgramEntity(auxNode.getId(), auxNode
 						.getProperty("title").toString(), auxNode.getProperty(
 						"type").toString(), Integer.parseInt(auxNode

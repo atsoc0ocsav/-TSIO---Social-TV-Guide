@@ -1,6 +1,9 @@
 package iul.iscte.tsio.tests;
 
 import static org.junit.Assert.*;
+
+import java.util.List;
+
 import iul.iscte.tsio.controller.ProgramsController;
 import iul.iscte.tsio.model.ProgramEntity;
 import iul.iscte.tsio.model.UserDAOImpl;
@@ -40,6 +43,11 @@ public class UserCRUDTest {
 		assertEquals(tempUser, userTest);
 		tempUser = UserDAOImpl.getInstance().getUserByName(userTest.getUsername());
 		assertEquals(tempUser, userTest);
+		List<UserEntity>tempUserList = UserDAOImpl.getInstance().getUsersWithRegex("test");
+		System.out.println(tempUserList.size());
+		assertTrue(tempUserList.size() == 2);
+		assertTrue(tempUserList.contains(user));
+		assertTrue(tempUserList.contains(userTest));
 		//Update
 		userTest.setUsername("test3");
 		assertTrue(UserDAOImpl.getInstance().updateUser(userTest));

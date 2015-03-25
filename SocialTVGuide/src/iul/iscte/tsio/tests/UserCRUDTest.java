@@ -51,6 +51,8 @@ public class UserCRUDTest {
 		//Update
 		userTest.setUsername("test3");
 		assertTrue(UserDAOImpl.getInstance().updateUser(userTest));
+		tempUser = UserDAOImpl.getInstance().getUserByName(userTest.getUsername());
+		assertEquals(tempUser, userTest);
 		//Delete
 		assertTrue(UserDAOImpl.getInstance().deleteUser(userTest));
 	}

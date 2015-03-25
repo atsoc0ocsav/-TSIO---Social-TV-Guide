@@ -1,6 +1,6 @@
 package iul.iscte.tsio.tests;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import iul.iscte.tsio.controller.ProgramsController;
 import iul.iscte.tsio.model.ProgramDAOImpl;
 import iul.iscte.tsio.model.ProgramEntity;
@@ -43,10 +43,11 @@ public class ProgramWatchedLikedRelationshipTest {
 		assertTrue(ProgramDAOImpl.getInstance().createLikedRelationship(user, program));
 		assertTrue(ProgramDAOImpl.getInstance().hasUserWatchedProgram(user, program));
 		assertTrue(ProgramDAOImpl.getInstance().hasUserLikedProgram(user, program));
+		assertFalse(ProgramDAOImpl.getInstance().hasUserLikedProgram(user, movie));
+		assertFalse(ProgramDAOImpl.getInstance().hasUserWatchedProgram(user, movie));
 		assertTrue(ProgramDAOImpl.getInstance().createWatchedRelationship(user, movie));
 		assertTrue(ProgramDAOImpl.getInstance().hasUserWatchedProgram(user, movie));
 		List<ProgramEntity> temp = ProgramDAOImpl.getInstance().getAllWatchedProgramsByUser(user);
-		System.out.println(movie.toString());
 		assertTrue(temp.size() == 2);
 		assertTrue(temp.contains(movie));
 		assertTrue(temp.contains(program));

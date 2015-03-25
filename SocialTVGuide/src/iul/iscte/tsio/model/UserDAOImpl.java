@@ -73,11 +73,10 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public boolean deleteUser(UserEntity userToDelete) {
-		String query = "Match (u:User) OPTIONAL MATCH (u)-[r]-() Where id(u)=" + userToDelete.getNodeId()
-				+ " Delete u,r;";
-		Iterable<Node> user = Collections.emptyList();
+		String query = "Match (u:User) Where id(u)="
+				+ userToDelete.getNodeId() + " OPTIONAL MATCH (u)-[r]-()  Delete u,r;";
 		try {
-			user = cypherQueryEngine.query(query, null).to(Node.class);
+			cypherQueryEngine.query(query, null).to(Node.class);
 		} catch (Exception e) {
 			System.err.print("Something went wrong, please call techSupport");
 			e.printStackTrace();
@@ -98,7 +97,7 @@ public class UserDAOImpl implements UserDAO {
 			e.printStackTrace();
 			return false;
 		}
-				return true;
+		return true;
 	}
 
 	@Override
@@ -164,7 +163,7 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public boolean deleteFriendshipRelationship(UserEntity user,
 			UserEntity friend) {
-		//Add verification to see if relationship exists
+		// Add verification to see if relationship exists
 		String query = "MATCH (n:User)-[r:Friend]-(m:User) WHERE id(n)="
 				+ user.getNodeId() + " AND id(m)=" + friend.getNodeId()
 				+ " Delete r";

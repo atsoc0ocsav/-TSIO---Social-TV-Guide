@@ -20,14 +20,10 @@ public class ProgramCRUDTest {
 	static UserEntity user;
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		Server.getInstance().login("http://localhost:7474/db/data/");	
-<<<<<<< HEAD
-		Server.getInstance().logUser("techsupport@lemonparty.com");
-=======
+		Server.getInstance().connect("http://localhost:7474/db/data/");	
 		user = new UserEntity("test", "techsupport@lemonparty.com");
 		user.setNodeId(UserDAOImpl.getInstance().insertUser(user));
-		Server.getInstance().setLoggedUser("techsupport@lemonparty.com");
->>>>>>> refs/remotes/origin/master
+		Server.getInstance().logUser("techsupport@lemonparty.com");
 		movie = new ProgramEntity("Title1", "Movie", 100, "Description1");
 		program = new ProgramEntity("Title2", "TVShow", 30, "Description2", 1 , 1);
 	}

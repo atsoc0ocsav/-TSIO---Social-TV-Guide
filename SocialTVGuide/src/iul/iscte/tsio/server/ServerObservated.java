@@ -7,7 +7,7 @@ public interface ServerObservated {
 	
 	public boolean isAuthenticated();
 	
-	public boolean login(String serverAddress);
+	public boolean connect(String serverAddress);
 	
 	public boolean logUser(String email);
 }

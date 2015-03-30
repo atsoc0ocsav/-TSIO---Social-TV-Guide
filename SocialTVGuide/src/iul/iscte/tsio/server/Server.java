@@ -39,11 +39,11 @@ public class Server implements ServerObservated {
 	}
 
 	@Override
-	public boolean login(String serverAddress) {
+	public boolean connect(String serverAddress) {
 		this.serverAddress = serverAddress;
 		ConnectThread connectToServerThread = new ConnectThread();
 		connectToServerThread.start();
-		
+
 		return connectedToServer;
 	}
 
@@ -80,7 +80,7 @@ public class Server implements ServerObservated {
 		this.email = email;
 		AuthenticateUserThread authenticateUserThread = new AuthenticateUserThread();
 		authenticateUserThread.start();
-		
+
 		return authenticatedUser;
 	}
 
@@ -142,8 +142,8 @@ public class Server implements ServerObservated {
 				if (!authenticatedUser && connectedToServer) {
 					authenticateUser();
 				}
-				
-				if(authenticatedUser && connectedToServer){
+
+				if (authenticatedUser && connectedToServer) {
 					observator.launchGUI();
 				}
 			}
@@ -162,11 +162,8 @@ public class Server implements ServerObservated {
 			System.out.println(str);
 		}
 	}
-	
-	public boolean isUserLogged(){
-		return loggedUser != null;
-	}
-	public void unLogUser(){
+
+	public void unLogUser() {
 		if (loggedUser != null)
 			loggedUser = null;
 	}

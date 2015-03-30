@@ -1,9 +1,5 @@
 package iul.iscte.tsio.tests;
 
-import static org.junit.Assert.*;
-
-import java.util.List;
-
 import iul.iscte.tsio.model.UserDAOImpl;
 import iul.iscte.tsio.model.UserEntity;
 import iul.iscte.tsio.server.Server;
@@ -20,10 +16,10 @@ public class UserRecommendationTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		Server.getInstance().login("http://localhost:7474/db/data/");
+		Server.getInstance().connect("http://localhost:7474/db/data/");
 		user1 = new UserEntity("test", "techsupport@lemonparty.com");
 		user1.setNodeId(UserDAOImpl.getInstance().insertUser(user1));
-		Server.getInstance().setLoggedUser("techsupport@lemonparty.com");
+		Server.getInstance().logUser("techsupport@lemonparty.com");
 		user2 = new UserEntity("test2", "test2@lemonparty.com");
 		user2.setNodeId(UserDAOImpl.getInstance().insertUser(user2));
 		user3 = new UserEntity("test3", "test3@lemonparty.com");

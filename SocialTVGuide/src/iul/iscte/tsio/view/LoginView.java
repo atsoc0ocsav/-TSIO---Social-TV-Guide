@@ -482,7 +482,7 @@ public class LoginView extends JFrame implements ServerObservator {
 
 		try {
 			if (!observed.isConnected()) {
-				observed.login(serverAddress);
+				observed.connect(serverAddress);
 			} else {
 				addMessage("Already connected to server!");
 			}

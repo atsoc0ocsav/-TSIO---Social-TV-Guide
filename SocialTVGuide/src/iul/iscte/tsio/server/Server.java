@@ -7,12 +7,20 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
-public class Server {
+public class Server implements ServerObservated {
 	private static String SERVER_ROOT_URI;
 	private static Server instance = null;
 	private UserEntity loggedUser;
 
+	private String serverAddress = "";
+	private String email = "";
+
 	private boolean connectedToServer = false;
+	private boolean authenticatedUser = false;
+
+	private ServerObservator observator;
+
+	private boolean connectingToServer = false;
 
 	private Server() {
 	}
@@ -30,41 +38,128 @@ public class Server {
 		return SERVER_ROOT_URI;
 	}
 
+	@Override
 	public boolean login(String serverAddress) {
-		SERVER_ROOT_URI = serverAddress;
-		Client client = Client.create();
-		WebResource resource = client.resource(SERVER_ROOT_URI);
-		ClientResponse response = resource.get(ClientResponse.class);
+		this.serverAddress = serverAddress;
+		ConnectThread connectToServerThread = new ConnectThread();
+		connectToServerThread.start();
+		
+		return connectedToServer;
+	}
 
-		if (response.getStatus() != 200) {
-			System.out.println(String.format(
-					"Server is unavailable, status code [%d]",
-					response.getStatus()));
-			response.close();
+	private void connectToServer() {
+		try {
+			SERVER_ROOT_URI = serverAddress;
+			Client client = Client.create();
+			WebResource resource = client.resource(SERVER_ROOT_URI);
+			ClientResponse response = resource.get(ClientResponse.class);
+
+			if (response.getStatus() != 200) {
+				sysoutToUser(String.format(
+						"Server is unavailable, status code [%d]\n",
+						response.getStatus()));
+				response.close();
+				connectedToServer = false;
+				observator.unlockIPHostnameInput();
+
+			} else {
+				sysoutToUser(String.format("GET on [%s], status code [%d]\n",
+						SERVER_ROOT_URI, response.getStatus()));
+				connectedToServer = true;
+				observator.authenticateUser();
+			}
+		} catch (com.sun.jersey.api.client.ClientHandlerException e) {
+			sysoutToUser("Server is unavailable (server timeout)\n");
 			connectedToServer = false;
-			return false;
-		} else {
-			System.out.println(String.format("GET on [%s], status code [%d]",
-					SERVER_ROOT_URI, response.getStatus()));
-			connectedToServer = true;
-			return true;
+			observator.unlockIPHostnameInput();
 		}
 	}
 
-	public boolean setLoggedUser(String email) {
+	@Override
+	public boolean logUser(String email) {
+		this.email = email;
+		AuthenticateUserThread authenticateUserThread = new AuthenticateUserThread();
+		authenticateUserThread.start();
+		
+		return authenticatedUser;
+	}
+
+	private void authenticateUser() {
 		UserEntity loggedUser = UserDAOImpl.getInstance().getUserByEmail(email);
 		if (loggedUser != null) {
 			this.loggedUser = loggedUser;
-			return true;
+			authenticatedUser = true;
+			sysoutToUser("User authenticated with success!\n");
+		} else {
+			authenticatedUser = false;
+			sysoutToUser("Error authenticating user!\n");
 		}
-		return false;
 	}
 
 	public UserEntity getLoggedUser() {
 		return loggedUser;
 	}
 
-	public boolean isConnectedToServer() {
-		return connectedToServer;
+	@Override
+	public boolean isConnected() {
+		synchronized (this) {
+			return connectedToServer;
+		}
+	}
+
+	public boolean isAuthenticated() {
+		synchronized (this) {
+			return authenticatedUser;
+		}
+	}
+
+	private class ConnectThread extends Thread {
+		@Override
+		public void run() {
+			synchronized (this) {
+				connectingToServer = true;
+				if (!connectedToServer) {
+					connectToServer();
+				}
+				notifyAll();
+			}
+		}
+	}
+
+	private class AuthenticateUserThread extends Thread {
+		@Override
+		public void run() {
+			synchronized (this) {
+				if (!authenticatedUser && connectingToServer
+						&& !connectingToServer) {
+					try {
+						wait();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+
+				if (!authenticatedUser && connectedToServer) {
+					authenticateUser();
+				}
+				
+				if(authenticatedUser && connectedToServer){
+					observator.launchGUI();
+				}
+			}
+		}
+	}
+
+	@Override
+	public void addObserver(ServerObservator observator) {
+		this.observator = observator;
+	}
+
+	private void sysoutToUser(String str) {
+		if (observator != null) {
+			observator.addMessage(str);
+		} else {
+			System.out.println(str);
+		}
 	}
 }

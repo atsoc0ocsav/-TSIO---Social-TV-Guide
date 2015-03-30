@@ -16,7 +16,7 @@ public class ServerLoginTest {
 		assertTrue(Server.getInstance().login("http://localhost:7474/db/data/"));
 		UserEntity testUser = new UserEntity("test", "techsupport@lemonparty.com");
 		testUser.setNodeId(UserDAOImpl.getInstance().insertUser(testUser));
-		assertTrue(Server.getInstance().setLoggedUser("techsupport@lemonparty.com"));
+		assertTrue(Server.getInstance().logUser("techsupport@lemonparty.com"));
 		UserDAOImpl.getInstance().deleteUser(testUser);
 	}
 }

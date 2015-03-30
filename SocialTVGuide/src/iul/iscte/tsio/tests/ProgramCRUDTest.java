@@ -19,7 +19,7 @@ public class ProgramCRUDTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		Server.getInstance().login("http://localhost:7474/db/data/");	
-		Server.getInstance().setLoggedUser("techsupport@lemonparty.com");
+		Server.getInstance().logUser("techsupport@lemonparty.com");
 		movie = new ProgramEntity("Title1", "Movie", 100, "Description1");
 		program = new ProgramEntity("Title2", "TVShow", 30, "Description2", 1 , 1);
 		user = Server.getInstance().getLoggedUser();

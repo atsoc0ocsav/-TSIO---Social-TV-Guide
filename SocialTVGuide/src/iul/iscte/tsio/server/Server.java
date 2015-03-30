@@ -162,4 +162,12 @@ public class Server implements ServerObservated {
 			System.out.println(str);
 		}
 	}
+	
+	public boolean isUserLogged(){
+		return loggedUser != null;
+	}
+	public void unLogUser(){
+		if (loggedUser != null)
+			loggedUser = null;
+	}
 }

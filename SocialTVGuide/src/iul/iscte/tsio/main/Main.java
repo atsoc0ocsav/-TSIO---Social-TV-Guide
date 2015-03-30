@@ -17,7 +17,7 @@ public class Main {
 		boolean connected = false;
 		boolean authenticated = false;
 
-		while (!connected || !authenticated) {
+		while (!connected && !authenticated) {
 			// Get Server IP Address/ Hostname
 			ServerAddressRequestToUserPane addressRequestPane = new ServerAddressRequestToUserPane();
 			String serverAddress = "http://"
@@ -45,8 +45,8 @@ public class Main {
 			if (authenticated) {
 				UsersView.getInstance().setVisible(true);
 				JOptionPane.showMessageDialog(null, "Successfully Connected!",
-						"Connection Information", JOptionPane.OK_OPTION);
-			} else {
+						"Connection Information", JOptionPane.INFORMATION_MESSAGE);
+			} else if(connected){
 				//System.out.println("It was not possible to authenticate user");
 				JOptionPane.showMessageDialog(null,
 						"Unable to autenticate user. Please correct username!",

@@ -21,6 +21,7 @@ public class ServerAddressRequestToUserPane extends JFrame {
 	private static final String IP_ADDRESS_REGEX = "^([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3}$";
 	private static final String HOSTNAME_REGEX = "^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\\-]*[A-Za-z0-9])$";
 	
+	//TODO: Change default IP Address to localhost
 	private String DEFAULT_IP = "52.10.21.89";
 	private String DEFAULT_PORT = "7474";
 	private InetAddress ip = null;
@@ -113,7 +114,7 @@ public class ServerAddressRequestToUserPane extends JFrame {
 		int returnCode = -1;
 		while (returnCode < 0) {
 			int result = JOptionPane.showConfirmDialog(null, dialogJPane,
-					"Please Enter Drone's Address",
+					"Please Enter Neo4j Server Address",
 					JOptionPane.OK_CANCEL_OPTION);
 
 			returnCode = parseUserInformations(result);

@@ -1,9 +1,5 @@
 package iul.iscte.tsio.tests;
 
-import static org.junit.Assert.*;
-
-import java.util.List;
-
 import iul.iscte.tsio.model.UserDAOImpl;
 import iul.iscte.tsio.model.UserEntity;
 import iul.iscte.tsio.server.Server;

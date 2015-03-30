@@ -14,14 +14,15 @@ public class ServerLoginTest {
 
 	@Test
 	public void testUserLogin() {
-		assertTrue(Server.getInstance().login("http://localhost:7474/db/data/"));
-		assertTrue(Server.getInstance().isConnectedToServer());
+		assertTrue(Server.getInstance().connect("http://localhost:7474/db/data/"));
+		assertTrue(Server.getInstance().isConnected());
 		UserEntity testUser = new UserEntity("test", "techsupport@lemonparty.com");
 		testUser.setNodeId(UserDAOImpl.getInstance().insertUser(testUser));
-		assertTrue(Server.getInstance().setLoggedUser("techsupport@lemonparty.com"));
-		assertTrue(Server.getInstance().isUserLogged());
+
+		assertTrue(Server.getInstance().logUser("techsupport@lemonparty.com"));
+		assertTrue(Server.getInstance().isAuthenticated());
 		Server.getInstance().unLogUser();
-		assertFalse(Server.getInstance().isUserLogged());
+		assertFalse(Server.getInstance().isAuthenticated());
 		UserDAOImpl.getInstance().deleteUser(testUser);
 	}
 }

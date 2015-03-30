@@ -21,10 +21,10 @@ public class UserCRUDTest {
 	public static UserEntity user;
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		Server.getInstance().login("http://localhost:7474/db/data/");	
+		Server.getInstance().connect("http://localhost:7474/db/data/");	
 		user = new UserEntity("test", "techsupport@lemonparty.com");
 		user.setNodeId(UserDAOImpl.getInstance().insertUser(user));
-		Server.getInstance().setLoggedUser("techsupport@lemonparty.com");
+		Server.getInstance().logUser("techsupport@lemonparty.com");
 	}
 
 	@AfterClass

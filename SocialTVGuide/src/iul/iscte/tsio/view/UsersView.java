@@ -1,6 +1,5 @@
 package iul.iscte.tsio.view;
 
-import iul.iscte.tsio.controller.UsersController;
 import iul.iscte.tsio.server.Server;
 import iul.iscte.tsio.utils.Labels;
 import iul.iscte.tsio.view.panels.BasicActionsPanel;

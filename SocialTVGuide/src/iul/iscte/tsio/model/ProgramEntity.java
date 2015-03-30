@@ -10,7 +10,6 @@ public class ProgramEntity {
 	private int episodeNumber = 0;
 	private long nodeId;
 	
-	//TODO: Add episode name
 	public ProgramEntity(String title, String type, int runtime,
 			String description) {
 		super();
@@ -111,11 +110,10 @@ public class ProgramEntity {
 	
 	@Override
 	public String toString() {
-		if(this.getType().equals("Movie")){
-			return title;
-		}
-		return title 
-				+ ", Season: " + season + ", Episode Number: " + episodeNumber;
+		return "ProgramEntity [title=" + title + ", type=" + type
+				+ ", runtime=" + runtime + ", description=" + description
+				+ ", season=" + season + ", episodeNumber=" + episodeNumber
+				+ ", nodeId=" + nodeId + "]";
 	}
 
 	@Override

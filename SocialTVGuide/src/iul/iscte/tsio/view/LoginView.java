@@ -2,6 +2,7 @@ package iul.iscte.tsio.view;
 
 import iul.iscte.tsio.server.Server;
 import iul.iscte.tsio.server.ServerObservator;
+import iul.iscte.tsio.utils.Labels;
 
 import java.awt.Container;
 import java.awt.FlowLayout;
@@ -58,9 +59,6 @@ public class LoginView extends JFrame implements ServerObservator {
 	private JButton cancelButton;
 	private JButton connectButton;
 	private JSeparator separator;
-
-	private boolean connected = false;
-	private boolean authenticated = false;
 	
 	private Server observed;
 
@@ -79,7 +77,7 @@ public class LoginView extends JFrame implements ServerObservator {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 		setSize(400, 320);
-		setTitle("Social TV Guide - Connect to Server");
+		setTitle(Labels.LOGINVIEWTITLE.getValue());
 
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -553,6 +551,7 @@ public class LoginView extends JFrame implements ServerObservator {
 
 	@Override
 	public void launchGUI() {
+		this.dispose();
 		UsersView.getInstance().setVisible(true);
 	}
 }

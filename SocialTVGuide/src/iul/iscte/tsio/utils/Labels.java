@@ -3,7 +3,8 @@ package iul.iscte.tsio.utils;
 public enum Labels {
 
 	SEARCHLABEL("Search Programs"), 
-	USERSVIEWTITLE("User View"), 
+	USERSVIEWTITLE("User View"),
+	LOGINVIEWTITLE("Social TV Guide - Connect to Server"),
 	ADDUSERBUTTON("Add Users"), 
 	ADDPROGRAMBUTTON("Add Program"), 
 	ADDFRIENDBUTTON("Add Friend"), 

@@ -2,12 +2,15 @@ package iul.iscte.tsio.view.panels;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 import iul.iscte.tsio.controller.UsersController;
 import iul.iscte.tsio.interfaces.Refreshable;
 import iul.iscte.tsio.model.UserEntity;
 import iul.iscte.tsio.utils.Labels;
+import iul.iscte.tsio.view.optionPanes.SelectUserOptionPane;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -18,7 +21,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 
-public class UserFriendsListPanel extends JPanel implements Refreshable{
+public class UserFriendsListPanel extends JPanel implements Refreshable {
 
 	private static final long serialVersionUID = 1L;
 	private UserEntity loggedUser;
@@ -31,15 +34,21 @@ public class UserFriendsListPanel extends JPanel implements Refreshable{
 	public UserFriendsListPanel(UserEntity loggedUser) {
 		this.loggedUser = loggedUser;
 		setLayout(new BorderLayout());
-		setBorder(new EmptyBorder(0, 5, 5, 5) );
-		
+		setBorder(new EmptyBorder(0, 5, 5, 5));
+
 		JPanel aux = new JPanel();
 		aux.setLayout(new FlowLayout());
 		aux.add(addFriend = new JButton(Labels.ADDFRIENDBUTTON.getValue()));
+		addFriend.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new SelectUserOptionPane();
+			}
+		});
 		aux.add(deleteFriend = new JButton(Labels.DELETEFRIENDBUTTON.getValue()));
 		add(aux, BorderLayout.SOUTH);
 		add(new JLabel(Labels.MYFRIENDS.getValue()), BorderLayout.NORTH);
-
 
 		listModel = new DefaultListModel<UserEntity>();
 		friendsList = new JList<UserEntity>(listModel);
@@ -52,11 +61,12 @@ public class UserFriendsListPanel extends JPanel implements Refreshable{
 	@Override
 	public void refresh() {
 		listModel.clear();
-		List<UserEntity> data = UsersController.getInstance().getAllFriends(loggedUser);
+		List<UserEntity> data = UsersController.getInstance().getAllFriends(
+				loggedUser);
 		for (UserEntity userEntity : data) {
 			listModel.addElement(userEntity);
 		}
-		
+
 	}
 
 }

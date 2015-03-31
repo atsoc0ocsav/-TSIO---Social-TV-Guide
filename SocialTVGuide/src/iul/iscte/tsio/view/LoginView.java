@@ -78,7 +78,7 @@ public class LoginView extends JFrame implements ServerObservator {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 		setSize(441, 320);
-		setTitle(Labels.LOGINVIEWTITLE.getValue());
+		setTitle(Labels.VIEWTITLE_LOGIN_PANE.getValue());
 
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -205,7 +205,7 @@ public class LoginView extends JFrame implements ServerObservator {
 
 		JPanel buttonPanel = new JPanel(new FlowLayout());
 		buttonPanel.setBounds(0, 0, 435, 33);
-		leftButton = new JButton(Labels.CONNECTBUTTON.getValue());
+		leftButton = new JButton(Labels.CONNECTBUTTON_LOGIN_PANE.getValue());
 		leftButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -215,7 +215,7 @@ public class LoginView extends JFrame implements ServerObservator {
 		});
 		buttonPanel.add(leftButton);
 
-		rightButton = new JButton(Labels.CANCELBUTTON.getValue());
+		rightButton = new JButton(Labels.CANCELBUTTON_LOGIN_PANE.getValue());
 		rightButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -502,8 +502,8 @@ public class LoginView extends JFrame implements ServerObservator {
 	@Override
 	public void authenticateUser() {
 		addMessage("Authenticating user..... ");
-		leftButton.setText(Labels.LOGINBUTTON.getValue());
-		rightButton.setText(Labels.DISCONNECTBUTTON.getValue());
+		leftButton.setText(Labels.LOGINBUTTON_LOGIN_PANE.getValue());
+		rightButton.setText(Labels.DISCONNECTBUTTON_LOGIN_PANE.getValue());
 		observed.logUser(username);
 	}
 

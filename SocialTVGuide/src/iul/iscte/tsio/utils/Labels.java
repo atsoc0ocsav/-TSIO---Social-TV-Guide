@@ -1,10 +1,17 @@
 package iul.iscte.tsio.utils;
 
 public enum Labels {
-
+	// Login view labels
+	LOGINVIEWTITLE("Social TV Guide - Connect to Server"),
+	CONNECTBUTTON("Connect"),
+	CANCELBUTTON("Cancel"),
+	DISCONNECTBUTTON("Disconnect"),
+	LOGINBUTTON("Login"),	
+	
+	
+	// Others
 	SEARCHLABEL("Search Programs"), 
 	USERSVIEWTITLE("User View"),
-	LOGINVIEWTITLE("Social TV Guide - Connect to Server"),
 	ADDUSERBUTTON("Add Users"), 
 	ADDPROGRAMBUTTON("Add Program"), 
 	ADDFRIENDBUTTON("Add Friend"), 

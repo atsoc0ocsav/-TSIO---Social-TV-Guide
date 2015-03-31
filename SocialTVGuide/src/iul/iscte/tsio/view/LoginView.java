@@ -27,6 +27,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.text.DefaultCaret;
 
 public class LoginView extends JFrame implements ServerObservator {
 	private static final long serialVersionUID = -7554010640119485816L;
@@ -56,16 +57,16 @@ public class LoginView extends JFrame implements ServerObservator {
 
 	private JTextArea messageArea;
 
-	private JButton cancelButton;
-	private JButton connectButton;
+	private JButton rightButton;
+	private JButton leftButton;
 	private JSeparator separator;
-	
+
 	private Server observed;
 
 	public LoginView() {
 		buildGUI();
 
-		observed=Server.getInstance();
+		observed = Server.getInstance();
 		observed.addObserver(this);
 
 		setVisible(true);
@@ -76,7 +77,7 @@ public class LoginView extends JFrame implements ServerObservator {
 		contentPane.setLayout(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
-		setSize(400, 320);
+		setSize(441, 320);
 		setTitle(Labels.LOGINVIEWTITLE.getValue());
 
 		try {
@@ -88,7 +89,7 @@ public class LoginView extends JFrame implements ServerObservator {
 		}
 
 		separator = new JSeparator();
-		separator.setBounds(0, 163, 394, 9);
+		separator.setBounds(0, 163, 435, 9);
 		getContentPane().add(separator);
 
 		buildCentralPane();
@@ -100,7 +101,7 @@ public class LoginView extends JFrame implements ServerObservator {
 	private void buildCentralPane() {
 		JPanel centralPane = new JPanel(null);
 		centralPane.setLocation(0, 0);
-		centralPane.setSize(394, 154);
+		centralPane.setSize(435, 154);
 
 		/*
 		 * First Line Construction (IP address introduction)
@@ -120,7 +121,7 @@ public class LoginView extends JFrame implements ServerObservator {
 		// Panel Construction
 		JPanel addressAndLabelJPane = new JPanel(new FlowLayout(
 				FlowLayout.CENTER, 6, 5));
-		addressAndLabelJPane.setBounds(146, 10, 175, 29);
+		addressAndLabelJPane.setBounds(171, 11, 175, 29);
 		addressAndLabelJPane.add(address1JTextField);
 		addressAndLabelJPane.add(new JLabel("."));
 		addressAndLabelJPane.add(address2JTextField);
@@ -134,7 +135,7 @@ public class LoginView extends JFrame implements ServerObservator {
 		 * Hostname introduction
 		 */
 		hostnameJTextField = new JTextField(15);
-		hostnameJTextField.setLocation(150, 50);
+		hostnameJTextField.setLocation(175, 51);
 		hostnameJTextField.setSize(168, 20);
 		hostnameJTextField.setText(DEFAULT_IP);
 		hostnameJTextField.setEditable(false);
@@ -145,13 +146,13 @@ public class LoginView extends JFrame implements ServerObservator {
 		 * Port introduction
 		 */
 		portNumberJTextField = new JTextField(5);
-		portNumberJTextField.setLocation(150, 81);
+		portNumberJTextField.setLocation(175, 82);
 		portNumberJTextField.setSize(50, 20);
 		portNumberJTextField.setText(DEFAULT_PORT);
 
 		JLabel portLabel = new JLabel("Port");
 		portLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		portLabel.setLocation(89, 81);
+		portLabel.setLocation(114, 82);
 		portLabel.setSize(39, 20);
 
 		centralPane.add(portLabel);
@@ -163,13 +164,13 @@ public class LoginView extends JFrame implements ServerObservator {
 		firstLineRadioButton = new JRadioButton("IP Address");
 		firstLineRadioButton.addActionListener(new RadioButtonActionListener());
 		firstLineRadioButton.setSelected(true);
-		firstLineRadioButton.setBounds(57, 14, 82, 20);
+		firstLineRadioButton.setBounds(82, 15, 82, 20);
 
 		secondLineRadioButton = new JRadioButton("Hostname");
 		secondLineRadioButton
 				.addActionListener(new RadioButtonActionListener());
 		secondLineRadioButton.setSelected(false);
-		secondLineRadioButton.setBounds(58, 50, 82, 20);
+		secondLineRadioButton.setBounds(83, 51, 82, 20);
 
 		ButtonGroup radioButtonGroup = new ButtonGroup();
 		radioButtonGroup.add(firstLineRadioButton);
@@ -183,11 +184,11 @@ public class LoginView extends JFrame implements ServerObservator {
 		 */
 		JLabel usernameLabel = new JLabel("Username");
 		usernameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		usernameLabel.setLocation(58, 130);
+		usernameLabel.setLocation(83, 131);
 		usernameLabel.setSize(70, 20);
 
 		usernameJTextField = new JTextField();
-		usernameJTextField.setLocation(150, 130);
+		usernameJTextField.setLocation(175, 131);
 		usernameJTextField.setSize(168, 20);
 		usernameJTextField.setText(DEFAULT_USERNAME);
 
@@ -199,30 +200,30 @@ public class LoginView extends JFrame implements ServerObservator {
 
 	private void buildSouthPane() {
 		JPanel southPanel = new JPanel();
-		southPanel.setBounds(0, 174, 394, 118);
+		southPanel.setBounds(0, 174, 435, 118);
 		southPanel.setLayout(null);
 
 		JPanel buttonPanel = new JPanel(new FlowLayout());
-		buttonPanel.setBounds(0, 0, 394, 33);
-		connectButton = new JButton("Connect");
-		connectButton.addActionListener(new ActionListener() {
+		buttonPanel.setBounds(0, 0, 435, 33);
+		leftButton = new JButton(Labels.CONNECTBUTTON.getValue());
+		leftButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				connectButtonAction();
 			}
 		});
-		buttonPanel.add(connectButton);
+		buttonPanel.add(leftButton);
 
-		cancelButton = new JButton("Cancel");
-		cancelButton.addActionListener(new ActionListener() {
+		rightButton = new JButton(Labels.CANCELBUTTON.getValue());
+		rightButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				System.exit(0);
 			}
 		});
-		buttonPanel.add(cancelButton);
+		buttonPanel.add(rightButton);
 
 		messageArea = new JTextArea();
 		messageArea.setFont(new Font("Monospaced", Font.PLAIN, 11));
@@ -231,9 +232,11 @@ public class LoginView extends JFrame implements ServerObservator {
 		messageArea.setBounds(0, 33, 314, 65);
 		JScrollPane scrollPane = new JScrollPane(messageArea);
 		scrollPane.setLocation(0, 36);
-		scrollPane.setSize(394, 82);
+		scrollPane.setSize(435, 82);
 		scrollPane
 				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		((DefaultCaret) messageArea.getCaret())
+				.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 
 		southPanel.add(buttonPanel);
 		southPanel.add(scrollPane);
@@ -499,6 +502,8 @@ public class LoginView extends JFrame implements ServerObservator {
 	@Override
 	public void authenticateUser() {
 		addMessage("Authenticating user..... ");
+		leftButton.setText(Labels.LOGINBUTTON.getValue());
+		rightButton.setText(Labels.DISCONNECTBUTTON.getValue());
 		observed.logUser(username);
 	}
 

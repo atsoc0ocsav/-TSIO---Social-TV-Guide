@@ -53,18 +53,20 @@ public class Server implements ServerObservated {
 			Client client = Client.create();
 			WebResource resource = client.resource(SERVER_ROOT_URI);
 			ClientResponse response = resource.get(ClientResponse.class);
-
+			
 			if (response.getStatus() != 200) {
-				sysoutToUser(String.format(
-						"Server is unavailable, status code [%d]\n",
+				System.out.println(String.format(
+						"Server is unavailable, status code [%d]",
 						response.getStatus()));
+				sysoutToUser("Unable to connect to server!\n");
 				response.close();
 				connectedToServer = false;
 				observator.unlockIPHostnameInput();
 
 			} else {
-				sysoutToUser(String.format("GET on [%s], status code [%d]\n",
+				System.out.println(String.format("GET on [%s], status code [%d]",
 						SERVER_ROOT_URI, response.getStatus()));
+				sysoutToUser("Connected with sucess to "+SERVER_ROOT_URI+"!\n");
 				connectedToServer = true;
 				observator.authenticateUser();
 			}
@@ -121,7 +123,6 @@ public class Server implements ServerObservated {
 				if (!connectedToServer) {
 					connectToServer();
 				}
-				notifyAll();
 			}
 		}
 	}

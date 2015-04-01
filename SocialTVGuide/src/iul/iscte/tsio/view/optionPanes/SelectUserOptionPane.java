@@ -8,40 +8,47 @@ import iul.iscte.tsio.utils.Labels;
 import java.awt.FlowLayout;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.JTextComponent;
 
-import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
-
 public class SelectUserOptionPane {
-	private JComboBox<String> username;
-	private List<String> usernames = new ArrayList<String>();
+	private JComboBox<String> usernameComboBox;
+	private DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<String>();
+	private AtomicBoolean inUpdate = new AtomicBoolean(false);
+	private ArrayList<String> usernames = new ArrayList<String>();
 
 	public SelectUserOptionPane() {
+		usernameComboBox = new JComboBox<String>();
+		comboBoxModel = new DefaultComboBoxModel<>();
+		usernameComboBox.setEditable(true);
+		usernameComboBox.setModel(comboBoxModel);
+		usernameComboBox.setSelectedIndex(-1);
 
-		username = new JComboBox<String>();
-		username.setEditable(true);
-		((JTextComponent) (username.getEditor().getEditorComponent()))
+		((JTextComponent) (usernameComboBox.getEditor().getEditorComponent()))
 				.getDocument().addDocumentListener(new DocumentListener() {
 
 					@Override
 					public void removeUpdate(DocumentEvent e) {
-						searchForUser();
-						username.showPopup();
+						if (!inUpdate.get()) {
+							searchForUser();
+						}
 					}
 
 					@Override
 					public void insertUpdate(DocumentEvent e) {
-						searchForUser();
-						username.showPopup();
+						if (!inUpdate.get()) {
+							searchForUser();
+						}
 					}
 
 					@Override
@@ -50,44 +57,110 @@ public class SelectUserOptionPane {
 								.println("Change update activated, on SelectUserOptionPane JTextField");
 					}
 				});
-		
 		JPanel panel = new JPanel();
 		panel.setLayout(new FlowLayout());
 		panel.add(new JLabel("Username: "));
-		panel.add(username);
-		AutoCompleteDecorator.decorate(username);
-
-		//searchForUser();
+		panel.add(usernameComboBox);
+		searchForUser();
 
 		Object[] buttonsLabels = new Object[] {
 				Labels.ADDFRIENDBUTTON_ADDFRIEND_PANE.getValue(),
 				Labels.CANCELBUTTON_ADDFRIEND_ADDFRIEND_PANE.getValue() };
-		int result = JOptionPane.showOptionDialog(null, panel,
-				Labels.TITLE_ADDFRIEND_PANE.getValue(),
-				JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
-				null, buttonsLabels, buttonsLabels[0]);
 
-		if (result == JOptionPane.OK_OPTION) {
-			System.out.println("Boa!!");
+		boolean exit = false;
+		while (!exit) {
+			int result = JOptionPane.showOptionDialog(null, panel,
+					Labels.TITLE_ADDFRIEND_PANE.getValue(),
+					JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
+					null, buttonsLabels, buttonsLabels[0]);
+
+			if (result == JOptionPane.OK_OPTION) {
+				String name = usernameComboBox.getEditor().getItem().toString();
+
+				if (usernames.contains(name)) {
+					System.out.print("Adding new friendship with \"" + name
+							+ "\"... ");
+
+					boolean opResult = UserDAOImpl.getInstance()
+							.createFriendshipRelationship(
+									Server.getInstance().getLoggedUser(),
+									UserDAOImpl.getInstance().getUserByName(
+											name));
+
+					System.out.println(opResult ? "with success!"
+							: "with errors!");
+
+					if (opResult) {
+						String message = String.format(
+								Labels.TEXT_SUCCESSADDINGFRIEND_ADDFRIEND_PANE
+										.getValue(), name);
+						JOptionPane.showMessageDialog(null, message,
+								Labels.TITLE_SUCCESSADDINGFRIEND_ADDFRIEND_PANE
+										.getValue(),
+								JOptionPane.INFORMATION_MESSAGE);
+					} else {
+						JOptionPane.showMessageDialog(null,
+								Labels.TEXT_ERRORADDINGFRIEND_ADDFRIEND_PANE
+										.getValue(),
+								Labels.TITLE_ERRORADDINGFRIEND_ADDFRIEND_PANE
+										.getValue(), JOptionPane.ERROR_MESSAGE);
+					}
+
+					exit = true;
+				} else {
+					JOptionPane.showMessageDialog(null,
+							Labels.TEXT_INVALIDADDINGFRIEND_ADDFRIEND_PANE
+									.getValue(),
+							Labels.TITLE_INVALIDADDINGFRIEND_ADDFRIEND_PANE
+									.getValue(), JOptionPane.ERROR_MESSAGE);
+				}
+			} else {
+				exit = true;
+			}
 		}
 	}
 
 	private void searchForUser() {
 		if (Server.getInstance().isConnected()) {
-			String str = username.getEditor().getItem().toString();
+			String str = "";
+			try {
+				str = usernameComboBox.getEditor().getItem().toString();
+			} catch (NullPointerException e) {
+				System.err
+						.println("NullPointerException on SelectUserOptionPane!");
+			}
 			List<UserEntity> users = UserDAOImpl.getInstance()
 					.getUsersWithRegex(str);
 
 			usernames.clear();
-			usernames.add(str);
 			for (UserEntity user : users) {
 				usernames.add(user.getUsername());
 			}
 
+			String toAdd = str;
+
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
-					username.setModel(new DefaultComboBoxModel(usernames
-							.toArray()));
+					inUpdate.set(true);
+					comboBoxModel.removeAllElements();
+
+					if (!usernames.contains(toAdd)) {
+						comboBoxModel.addElement(toAdd);
+					}
+					for (UserEntity user : users) {
+						comboBoxModel.addElement(user.getUsername());
+					}
+
+					JTextComponent editor = ((JTextField) usernameComboBox
+							.getEditor().getEditorComponent());
+					editor.setSelectionEnd(0);
+					editor.setSelectionStart(0);
+
+					editor.setCaretPosition(usernameComboBox.getEditor()
+							.getItem().toString().length());
+
+					usernameComboBox.showPopup();
+					inUpdate.set(false);
 				}
 			});
 		}

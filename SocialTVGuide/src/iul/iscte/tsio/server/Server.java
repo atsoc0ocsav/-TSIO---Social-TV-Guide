@@ -66,7 +66,7 @@ public class Server implements ServerObservated {
 			} else {
 				System.out.println(String.format("GET on [%s], status code [%d]",
 						SERVER_ROOT_URI, response.getStatus()));
-				sysoutToUser("Connected with sucess to "+SERVER_ROOT_URI+"!\n");
+				sysoutToUser("Connected with sucess to "+SERVER_ROOT_URI+"\n");
 				connectedToServer = true;
 				observator.authenticateUser();
 			}

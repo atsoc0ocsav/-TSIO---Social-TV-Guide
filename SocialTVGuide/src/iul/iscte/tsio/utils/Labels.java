@@ -12,6 +12,13 @@ public enum Labels {
 	TITLE_ADDFRIEND_PANE("Insert the friend's username"),
 	ADDFRIENDBUTTON_ADDFRIEND_PANE("Add Friend"),
 	CANCELBUTTON_ADDFRIEND_ADDFRIEND_PANE("Cancel"),
+	TITLE_INVALIDADDINGFRIEND_ADDFRIEND_PANE("Invalid Username"),
+	TEXT_INVALIDADDINGFRIEND_ADDFRIEND_PANE("The inserted username is invalid. Please correct it!"),
+	TITLE_ERRORADDINGFRIEND_ADDFRIEND_PANE("Error on Add Friend"),
+	TEXT_ERRORADDINGFRIEND_ADDFRIEND_PANE("Internal error occurred. Please contact system administrator"),
+	TITLE_SUCCESSADDINGFRIEND_ADDFRIEND_PANE("Success on Add Friend"),
+	TEXT_SUCCESSADDINGFRIEND_ADDFRIEND_PANE("The friendship with user %s was successfully added!"),
+	
 	
 	// Others
 	SEARCHLABEL("Search Programs"), 

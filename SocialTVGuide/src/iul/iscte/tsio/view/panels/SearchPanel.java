@@ -51,10 +51,10 @@ public class SearchPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String text = searchText.getText();
-				if(text.length() > 0){
-					JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(SearchPanel.this);
-					new SearchResultView(topFrame, text).setVisible(true);
-				}
+			
+				JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(SearchPanel.this);
+				new SearchResultView(topFrame, text).setVisible(true);
+				
 				
 			}
 		});

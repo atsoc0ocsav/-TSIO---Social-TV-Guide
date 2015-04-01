@@ -3,21 +3,24 @@ package iul.iscte.tsio.view;
 import iul.iscte.tsio.server.Server;
 import iul.iscte.tsio.utils.Labels;
 import iul.iscte.tsio.view.panels.BasicActionsPanel;
+import iul.iscte.tsio.view.panels.SearchPanel;
 import iul.iscte.tsio.view.panels.UserFriendsListPanel;
 import iul.iscte.tsio.view.panels.UserInformationPanel;
 import iul.iscte.tsio.view.program.UserRecommendationsListPanel;
-import iul.iscte.tsio.view.search.SearchPanel;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 public class UsersView extends JFrame {
-
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1139755408718207806L;
 	private SearchPanel searchPanel;
 	private BasicActionsPanel basicActions;
 	private UserFriendsListPanel frendsList;
@@ -31,6 +34,17 @@ public class UsersView extends JFrame {
 		setSize(800, 600);
 		setTitle(Labels.USERSVIEWTITLE.getValue());
 		getContentPane().setLayout(new BorderLayout());
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		setLocation(dim.width/2-getSize().width/2, dim.height/2-getSize().height/2);
+		
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException | InstantiationException
+				| IllegalAccessException | UnsupportedLookAndFeelException e) {
+			System.err
+					.println("Not able to set LookAndFeel for the current OS");
+		}
+		
 		buildView();
 	}
 	
@@ -54,6 +68,7 @@ public class UsersView extends JFrame {
 		getContentPane().add(userRecommendations = new UserRecommendationsListPanel(Server.getInstance().getLoggedUser()),
 				BorderLayout.SOUTH);
 		
+		getRootPane().setDefaultButton(searchPanel.getSearchButton());
 	}
 
 	public static UsersView getInstance() {

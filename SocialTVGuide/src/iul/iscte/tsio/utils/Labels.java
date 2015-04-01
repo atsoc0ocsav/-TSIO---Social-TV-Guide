@@ -31,8 +31,11 @@ public enum Labels {
 	TEXT_SUCCESSDELETINGFRIEND_DELETEFRIEND_PANE("The friendship with user %s was successfully deleted!"),
 	
 	
-	// Others
-	SEARCHLABEL("Search Programs"), 
+	// Search Panel
+	SEARCHBUTTON_SEARCH_PANEL("Search Programs"),
+	FIELDTEXT_SEARCH_PANEL("Insert program name to search..."),
+	
+	//Others
 	USERSVIEWTITLE("User View"),
 	ADDUSERBUTTON("Add Users"), 
 	ADDPROGRAMBUTTON("Add Program"), 

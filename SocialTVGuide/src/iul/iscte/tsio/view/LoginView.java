@@ -5,8 +5,10 @@ import iul.iscte.tsio.server.ServerObservator;
 import iul.iscte.tsio.utils.Labels;
 
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.InetAddress;
@@ -79,6 +81,8 @@ public class LoginView extends JFrame implements ServerObservator {
 		setResizable(false);
 		setSize(441, 320);
 		setTitle(Labels.VIEWTITLE_LOGIN_PANE.getValue());
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		setLocation(dim.width/2-getSize().width/2, dim.height/2-getSize().height/2);
 
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

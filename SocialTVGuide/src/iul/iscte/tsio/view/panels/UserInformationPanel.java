@@ -37,7 +37,5 @@ public class UserInformationPanel extends JPanel {
 		layout.putConstraint(SpringLayout.NORTH, emailLabel, 50, SpringLayout.NORTH, this);
 		layout.putConstraint(SpringLayout.NORTH, emailValue, 50, SpringLayout.NORTH, this);
 		layout.putConstraint(SpringLayout.WEST, emailValue, 20, SpringLayout.EAST, emailLabel);
-		
-		
 	}
 }

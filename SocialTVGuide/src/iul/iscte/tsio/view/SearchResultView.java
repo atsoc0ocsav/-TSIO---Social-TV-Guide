@@ -1,4 +1,4 @@
-package iul.iscte.tsio.view.search;
+package iul.iscte.tsio.view;
 
 import iul.iscte.tsio.controller.ProgramsController;
 import iul.iscte.tsio.model.ProgramEntity;
@@ -7,6 +7,8 @@ import iul.iscte.tsio.utils.Labels;
 import iul.iscte.tsio.view.program.ProgramDetailsView;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -19,6 +21,8 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 public class SearchResultView extends JDialog {
 
@@ -33,6 +37,16 @@ public class SearchResultView extends JDialog {
 		setTitle(Labels.SEARCHRESULTDIALOGTITLE.getValue() + " for \"" + text
 				+ "\"");
 		setSize(400, 500);
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		setLocation(dim.width/2-getSize().width/2, dim.height/2-getSize().height/2);
+		
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException | InstantiationException
+				| IllegalAccessException | UnsupportedLookAndFeelException e) {
+			System.err
+					.println("Not able to set LookAndFeel for the current OS");
+		}
 
 		setLayout(new BorderLayout());
 

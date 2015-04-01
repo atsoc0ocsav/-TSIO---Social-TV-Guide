@@ -35,7 +35,7 @@ public class UserFriendsListPanel extends JPanel implements Refreshable {
 		this.loggedUser = loggedUser;
 		setLayout(new BorderLayout());
 		setBorder(new EmptyBorder(0, 5, 5, 5));
-
+		
 		JPanel aux = new JPanel();
 		aux.setLayout(new FlowLayout());
 		aux.add(addFriend = new JButton(Labels.ADDFRIENDBUTTON.getValue()));

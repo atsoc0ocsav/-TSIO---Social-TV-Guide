@@ -16,4 +16,5 @@ public interface UserDAO {
 	public boolean isUserFriend(UserEntity user, UserEntity friend);
 	public List<UserEntity> getAllFriends(UserEntity user);
 	public List<UserEntity> getUsersWithRegex(String name);
+	public List<UserEntity> getFriendsWithRegex(String name);
 }

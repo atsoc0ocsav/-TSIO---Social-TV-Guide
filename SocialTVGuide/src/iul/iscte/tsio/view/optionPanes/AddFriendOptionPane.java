@@ -21,13 +21,13 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.JTextComponent;
 
-public class SelectUserOptionPane {
+public class AddFriendOptionPane {
 	private JComboBox<String> usernameComboBox;
 	private DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<String>();
 	private AtomicBoolean inUpdate = new AtomicBoolean(false);
 	private ArrayList<String> usernames = new ArrayList<String>();
 
-	public SelectUserOptionPane() {
+	public AddFriendOptionPane() {
 		usernameComboBox = new JComboBox<String>();
 		comboBoxModel = new DefaultComboBoxModel<>();
 		usernameComboBox.setEditable(true);
@@ -65,7 +65,7 @@ public class SelectUserOptionPane {
 
 		Object[] buttonsLabels = new Object[] {
 				Labels.ADDFRIENDBUTTON_ADDFRIEND_PANE.getValue(),
-				Labels.CANCELBUTTON_ADDFRIEND_ADDFRIEND_PANE.getValue() };
+				Labels.CANCELBUTTON_ADDFRIEND_PANE.getValue() };
 
 		boolean exit = false;
 		while (!exit) {
@@ -127,7 +127,7 @@ public class SelectUserOptionPane {
 				str = usernameComboBox.getEditor().getItem().toString();
 			} catch (NullPointerException e) {
 				System.err
-						.println("NullPointerException on SelectUserOptionPane!");
+						.println("NullPointerException on AddFriendOptionPane!");
 			}
 			List<UserEntity> users = UserDAOImpl.getInstance()
 					.getUsersWithRegex(str);

@@ -216,6 +216,29 @@ public class UserDAOImpl implements UserDAO {
 		}
 		return auxList;
 	}
+	
+	@Override
+	public List<UserEntity> getFriendsWithRegex(String name) {
+		String query = "Match (u1:User)<-[:Friend]->(u2:User) Where u1.username=~'"
+				+ name + ".*' return u2;";
+		Iterable<Node> friends = Collections.emptyList();
+		try {
+			friends = cypherQueryEngine.query(query, null).to(Node.class);
+		} catch (Exception e) {
+			System.err.print("Something went wrong, please call techSupport");
+			e.printStackTrace();
+		}
+		List<UserEntity> auxList = new ArrayList<UserEntity>();
+		Iterator<Node> it = friends.iterator();
+		while (it.hasNext()) {
+			Node auxNode = it.next();
+			auxList.add(new UserEntity(auxNode.getId(), auxNode.getProperty(
+					"username").toString(), auxNode.getProperty("email")
+					.toString()));
+		}
+		return auxList;
+	}
+
 
 	@Override
 	public List<UserEntity> getUsersWithRegex(String name) {

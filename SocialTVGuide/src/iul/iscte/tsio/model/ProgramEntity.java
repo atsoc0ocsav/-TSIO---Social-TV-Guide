@@ -110,10 +110,10 @@ public class ProgramEntity {
 	
 	@Override
 	public String toString() {
-		return "ProgramEntity [title=" + title + ", type=" + type
-				+ ", runtime=" + runtime + ", description=" + description
-				+ ", season=" + season + ", episodeNumber=" + episodeNumber
-				+ ", nodeId=" + nodeId + "]";
+		if (type.equals("Movie")){
+			return title;
+		}
+		return title + " - Season " + season + ", Episode " + episodeNumber;
 	}
 
 	@Override

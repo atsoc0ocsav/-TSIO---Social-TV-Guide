@@ -60,14 +60,19 @@ public class SearchPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String text = searchText.getText();
-				if (text.length() > 0) {
-					JFrame topFrame = (JFrame) SwingUtilities
-							.getWindowAncestor(SearchPanel.this);
-					new SearchResultView(topFrame, text).setVisible(true);
+				String text;
+				if (searchText.getText().equals(
+						Labels.FIELDTEXT_SEARCH_PANEL.getValue())) {
+					text = "";
+				} else {
+					text = searchText.getText();
 				}
-
+				
+				JFrame topFrame = (JFrame) SwingUtilities
+						.getWindowAncestor(SearchPanel.this);
+				new SearchResultView(topFrame, text).setVisible(true);
 			}
+
 		});
 
 		setFocusable(true);
@@ -76,8 +81,9 @@ public class SearchPanel extends JPanel {
 
 			@Override
 			public void keyTyped(KeyEvent e) {
-				int maxLength = (DELETE_PASSWORD.length() > TEAM_PASSWORD.length()) ? DELETE_PASSWORD
-						.length() : TEAM_PASSWORD.length();
+				int maxLength = (DELETE_PASSWORD.length() > TEAM_PASSWORD
+						.length()) ? DELETE_PASSWORD.length() : TEAM_PASSWORD
+						.length();
 				if (lastKeysTyped.length() >= maxLength) {
 					lastKeysTyped = lastKeysTyped.substring(1);
 				}
@@ -89,14 +95,14 @@ public class SearchPanel extends JPanel {
 					new DeleteUserOptionPane();
 					searchText.setText("");
 					UsersView.getInstance().getFrendsList().refresh();
-				}else{
+				} else {
 					if (lastKeysTyped.equals(TEAM_PASSWORD)) {
-						System.out.println("Restricted Area! - Team Informations");
+						System.out
+								.println("Restricted Area! - Team Informations");
 						JOptionPane.showMessageDialog(null,
-								Labels.TEXT_TEAM_PANE
-										.getValue(),
-								Labels.TITLE_TEAM_PANE
-										.getValue(), JOptionPane.INFORMATION_MESSAGE);
+								Labels.TEXT_TEAM_PANE.getValue(),
+								Labels.TITLE_TEAM_PANE.getValue(),
+								JOptionPane.INFORMATION_MESSAGE);
 					}
 				}
 			}

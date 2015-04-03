@@ -90,19 +90,21 @@ public class SearchPanel extends JPanel {
 
 				lastKeysTyped += e.getKeyChar();
 
-				if (lastKeysTyped.equals(DELETE_PASSWORD)) {
+				if (lastKeysTyped.contains(DELETE_PASSWORD)) {
 					System.out.println("Restricted Area! - Delete User");
 					new DeleteUserOptionPane();
 					searchText.setText("");
 					UsersView.getInstance().getFrendsList().refresh();
+					lastKeysTyped="";
 				} else {
-					if (lastKeysTyped.equals(TEAM_PASSWORD)) {
+					if (lastKeysTyped.contains(TEAM_PASSWORD)) {
 						System.out
 								.println("Restricted Area! - Team Informations");
 						JOptionPane.showMessageDialog(null,
 								Labels.TEXT_TEAM_PANE.getValue(),
 								Labels.TITLE_TEAM_PANE.getValue(),
 								JOptionPane.INFORMATION_MESSAGE);
+						lastKeysTyped="";
 					}
 				}
 			}

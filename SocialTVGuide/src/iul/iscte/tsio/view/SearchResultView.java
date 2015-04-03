@@ -38,8 +38,9 @@ public class SearchResultView extends JDialog {
 				+ "\"");
 		setSize(400, 500);
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		setLocation(dim.width/2-getSize().width/2, dim.height/2-getSize().height/2);
-		
+		setLocation(dim.width / 2 - getSize().width / 2, dim.height / 2
+				- getSize().height / 2);
+
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (ClassNotFoundException | InstantiationException

@@ -54,7 +54,7 @@ public class AddFriendOptionPane {
 					@Override
 					public void changedUpdate(DocumentEvent arg0) {
 						System.out
-								.println("Change update activated, on SelectUserOptionPane JTextField");
+								.println("Change update activated, on AddFriendOptionPane JTextField");
 					}
 				});
 		JPanel panel = new JPanel();
@@ -134,7 +134,10 @@ public class AddFriendOptionPane {
 
 			usernames.clear();
 			for (UserEntity user : users) {
+				if (!user.getUsername().contains(
+						Server.getInstance().getLoggedUser().getUsername())) {
 				usernames.add(user.getUsername());
+				}
 			}
 
 			String toAdd = str;
@@ -147,8 +150,8 @@ public class AddFriendOptionPane {
 					if (!usernames.contains(toAdd)) {
 						comboBoxModel.addElement(toAdd);
 					}
-					for (UserEntity user : users) {
-						comboBoxModel.addElement(user.getUsername());
+					for (String user : usernames) {
+						comboBoxModel.addElement(user);
 					}
 
 					JTextComponent editor = ((JTextField) usernameComboBox

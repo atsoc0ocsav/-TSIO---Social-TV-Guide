@@ -54,7 +54,7 @@ public class DeleteFriendOptionPane {
 					@Override
 					public void changedUpdate(DocumentEvent arg0) {
 						System.out
-								.println("Change update activated, on SelectUserOptionPane JTextField");
+								.println("Change update activated, on DeleteFriendOptionPane JTextField");
 					}
 				});
 		JPanel panel = new JPanel();
@@ -64,7 +64,7 @@ public class DeleteFriendOptionPane {
 		searchForUser();
 
 		Object[] buttonsLabels = new Object[] {
-				Labels.ADDFRIENDBUTTON_DELETEFRIEND_PANE.getValue(),
+				Labels.DELETEFRIENDBUTTON_DELETEFRIEND_PANE.getValue(),
 				Labels.CANCELBUTTON_DELETEFRIEND_PANE.getValue() };
 
 		boolean exit = false;
@@ -143,7 +143,10 @@ public class DeleteFriendOptionPane {
 
 			usernames.clear();
 			for (UserEntity user : users) {
-				usernames.add(user.getUsername());
+				if (!user.getUsername().contains(
+						Server.getInstance().getLoggedUser().getUsername())) {
+					usernames.add(user.getUsername());
+				}
 			}
 
 			String toAdd = str;
@@ -156,8 +159,8 @@ public class DeleteFriendOptionPane {
 					if (!usernames.contains(toAdd)) {
 						comboBoxModel.addElement(toAdd);
 					}
-					for (UserEntity user : users) {
-						comboBoxModel.addElement(user.getUsername());
+					for (String user : usernames) {
+						comboBoxModel.addElement(user);
 					}
 
 					JTextComponent editor = ((JTextField) usernameComboBox

@@ -36,7 +36,7 @@ public class LoginView extends JFrame implements ServerObservator {
 
 	private static final String IP_ADDRESS_REGEX = "^([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3}$";
 	private static final String HOSTNAME_REGEX = "^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\\-]*[A-Za-z0-9])$";
-	private static final String USERNAME_REGEX = "[A-Za-z0-9._+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+	private static final String EMAIL_REGEX = "[A-Za-z0-9._+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
 	private static final String IP_ELEMENT_REGEX = "^(([0-1]?[0-9]?[0-9])|([2][0-4][0-9])|(25[0-4]))$";
 
 	private String DEFAULT_IP = "52.10.21.89";
@@ -100,6 +100,7 @@ public class LoginView extends JFrame implements ServerObservator {
 		buildSouthPane();
 
 		addMessage("Welcome to Social TV Guide!\n");
+		getRootPane().setDefaultButton(leftButton);
 	}
 
 	private void buildCentralPane() {
@@ -186,7 +187,7 @@ public class LoginView extends JFrame implements ServerObservator {
 		/*
 		 * Username introduction
 		 */
-		JLabel usernameLabel = new JLabel("Username");
+		JLabel usernameLabel = new JLabel("E-mail");
 		usernameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		usernameLabel.setLocation(83, 131);
 		usernameLabel.setSize(70, 20);
@@ -270,7 +271,7 @@ public class LoginView extends JFrame implements ServerObservator {
 		 */
 		String usernameTempText = usernameJTextField.getText();
 		boolean usernameInError = false;
-		if (usernameTempText.matches(USERNAME_REGEX)) {
+		if (usernameTempText.matches(EMAIL_REGEX)) {
 			username = usernameTempText;
 		} else {
 			username = null;

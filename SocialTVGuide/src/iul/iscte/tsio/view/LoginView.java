@@ -39,9 +39,9 @@ public class LoginView extends JFrame implements ServerObservator {
 	private static final String EMAIL_REGEX = "[A-Za-z0-9._+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
 	private static final String IP_ELEMENT_REGEX = "^(([0-1]?[0-9]?[0-9])|([2][0-4][0-9])|(25[0-4]))$";
 
-	private String DEFAULT_IP = "52.10.21.89";
+	private String DEFAULT_IP = "127.0.0.1";
 	private String DEFAULT_PORT = "7474";
-	private String DEFAULT_USERNAME = "techsupport@lemonparty.com";
+	private String DEFAULT_USERNAME = "email@email.com";
 
 	private InetAddress ip = null;
 	private String ip_asString = "";

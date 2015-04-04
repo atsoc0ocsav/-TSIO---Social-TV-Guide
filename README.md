@@ -4,6 +4,7 @@ This project is intended to provide a proof-of-concept for a Recommendation syst
 
 You can download a compiled jar and the libs from this link:
 https://mega.co.nz/#!HwYW3Y4D!JZQQltFQJV0sNP5-dJkEME9AzhQtswBjXzDQ39C4dLg
+
 In order to run this application you must have the address of a running Neo4j server, follow this link to learn how to setup the server:
 http://neo4j.com/docs/stable/server-installation.html
 

@@ -133,7 +133,10 @@ public class AddProgramOptionPane {
 			} else {
 				veredict = false;
 			}
-
+			
+			type.setEditable(veredict);
+			type.setEnabled(veredict);
+			
 			season.setEditable(veredict);
 			season.setEnabled(veredict);
 
@@ -192,7 +195,7 @@ public class AddProgramOptionPane {
 
 			return null;
 		} else {
-			newProgram = new ProgramEntity(titleStr, typeStr, runtimeVal,
+			newProgram = new ProgramEntity(titleStr, "Movie", runtimeVal,
 					descriptionStr);
 
 			return null;

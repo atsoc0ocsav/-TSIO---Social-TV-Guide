@@ -53,7 +53,7 @@ public enum Labels {
 	TEXT_SUCCESSDELETINGUSER_DELETEUSER_PANE("The user %s was succesfully deleted!"),
 	
 	// Insert new program option pane
-	TITLE_ADDPROGAM_PANE("Createa a new program"),
+	TITLE_ADDPROGAM_PANE("Create a new program"),
 	ADDPROGRAMBUTTON_ADDPROGRAM_PANE("Add Program"),
 	CANCELBUTTON_ADDPROGRAM_PANE("Cancel"),
 	TITLE_INVALIDADDINGPROGRAM_ADDPROGRAM_PANE("Invalid Fields"),

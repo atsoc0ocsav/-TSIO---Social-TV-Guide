@@ -3,7 +3,7 @@ This is the official code repository for the project "Social TV Guide" created b
 This project is intended to provide a proof-of-concept for a Recommendation system that uses a graph database to store it's data and to be an example implementation of a program using the Neo4j Database system.
 
 You can download a compiled jar and the libs from this link:
-https://mega.co.nz/#!HwYW3Y4D!JZQQltFQJV0sNP5-dJkEME9AzhQtswBjXzDQ39C4dLg
+https://mega.co.nz/#!qkw1yIpL!SsXqqZj5665VomWvXtkKqHv_hpS7Bnf6S7sAsStahDQ
 
 In order to run this application you must have the address of a running Neo4j server, follow this link to learn how to setup the server:
 http://neo4j.com/docs/stable/server-installation.html

@@ -6,19 +6,19 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
-<pluginManagement>
+		<pluginManagement>
 			<plugins>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>2.3.1</version>
 					<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-					<excludes>
-            		<exclude>**/tests/*</exclude>
-       			 	</excludes>
-				</configuration>
+						<source>1.8</source>
+						<target>1.8</target>
+						<excludes>
+							<exclude>**/tests/*</exclude>
+						</excludes>
+					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -65,8 +65,22 @@
 				</executions>
 			</plugin>
 			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+				<version>1.8</version>
+				<executions>
+					<execution>
+						<id>download-licenses</id>
+						<goals>
+							<goal>download-licenses</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.6</version>
 				<configuration>
 					<archive>
 						<manifest>
@@ -78,7 +92,7 @@
 							<Class-Path>.</Class-Path>
 						</manifestEntries>
 					</archive>
- 
+
 					<finalName>SocialTVGuide/SocialTVGuide</finalName>
 				</configuration>
 			</plugin>

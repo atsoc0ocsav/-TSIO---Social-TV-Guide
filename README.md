@@ -11,7 +11,5 @@ http://neo4j.com/docs/stable/server-installation.html
 After the server is up, run the "tvprograms.cypher" script provided in the project in the Neo4j shell utility. To do so in Linux/Mac run the following command:
 
 ```
-#!shellscript
-
 ./home/user/neo4j-community-2.1.7/neo4j-shell -c < tvprograms.cypher
 ```
